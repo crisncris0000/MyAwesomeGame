@@ -7,9 +7,10 @@ import java.awt.*;
 
 public class Main extends JFrame {
 
-    private static final long DEMO_TIME = 5000;
+    private static final long DEMO_TIME = 8000;
     private Image testImage;
     private boolean imagesLoaded;
+    SimpleScreenManager screenManager;
     public static void main(String[] args) {
         DisplayMode displayMode;
 
@@ -31,10 +32,6 @@ public class Main extends JFrame {
         }
 
         Main main = new Main();
-
-        ImageIcon icon =
-                new ImageIcon("../../assets/tanks/tank_darkLarge.png");
-
         main.run(displayMode);
     }
 
@@ -42,7 +39,7 @@ public class Main extends JFrame {
         setBackground(Color.blue);
         setForeground(Color.white);
 
-        SimpleScreenManager screenManager = new SimpleScreenManager();
+        screenManager = new SimpleScreenManager();
 
         try {
             screenManager.setFullScreen(displayMode, this);
@@ -58,10 +55,13 @@ public class Main extends JFrame {
     }
 
     public void loadImages() {
-        testImage =
-                loadImage("../assets/tanks/tank_darkLarge.png");
-        imagesLoaded = true;
-        repaint();
+        try {
+            testImage = loadImage("/Users/christopherrivera/MyAwesomeGame/assets/tanks/tank_darkLarge.png");
+            imagesLoaded = true;
+            repaint();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private Image loadImage(String filename) {
@@ -70,14 +70,11 @@ public class Main extends JFrame {
 
 
     public void paint(Graphics pen) {
-        pen.drawString("Hello World!", 20, 50);
+        pen.drawString("Hello World!", 50, 50);
 
         if(imagesLoaded) {
             pen.drawImage(testImage, 0, 0, null);
         }
     }
 
-    public void drawImage(Graphics pen, Image image, int x, int y) {
-
-    }
 }
