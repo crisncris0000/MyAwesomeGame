@@ -1,6 +1,6 @@
 package Game;
 
-import ScreenManager.SimpleScreenManager;
+import ScreenManager.ScreenManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ public class Main extends JFrame {
     private static final long DEMO_TIME = 8000;
     private Image testImage;
     private boolean imagesLoaded;
-    SimpleScreenManager screenManager;
+    ScreenManager screenManager;
     public static void main(String[] args) {
         DisplayMode displayMode;
 
@@ -31,6 +31,7 @@ public class Main extends JFrame {
                     );
         }
 
+
         Main main = new Main();
         main.run(displayMode);
     }
@@ -39,24 +40,15 @@ public class Main extends JFrame {
         setBackground(Color.blue);
         setForeground(Color.white);
 
-        screenManager = new SimpleScreenManager();
+        screenManager = new ScreenManager();
 
-        try {
-            screenManager.setFullScreen(displayMode, this);
-            loadImages();
-            try {
-                Thread.sleep(DEMO_TIME);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        } finally {
-            screenManager.restoreScreen();
-        }
+        screenManager.setFullScreen(displayMode,this);
+        loadImages();
     }
 
     public void loadImages() {
         try {
-            testImage = loadImage("/Users/christopherrivera/MyAwesomeGame/assets/tanks/tank_darkLarge.png");
+            testImage = loadImage("assets/tanks/tank_darkLarge.png");
             imagesLoaded = true;
             repaint();
         } catch (Exception e) {
