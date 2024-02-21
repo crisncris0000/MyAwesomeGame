@@ -25,8 +25,9 @@ public class ScreenManager {
                 device.setDisplayMode(displayMode);
             } catch(IllegalArgumentException exception) {
                 restoreScreen();
-                exception.printStackTrace();
                 setWindowedScreen(window);
+
+                exception.printStackTrace();
             }
         }
     }
