@@ -1,5 +1,6 @@
 package Game;
 
+import Enemy.AnimationTest;
 import ScreenManager.ScreenManager;
 
 import javax.swing.*;
@@ -43,17 +44,26 @@ public class Main extends JFrame {
         screenManager = new ScreenManager();
 
         screenManager.setFullScreen(displayMode,this);
-        loadImages();
+
+
+        AnimationTest animationTest = new AnimationTest("left-walk", 8, 10);
+
+        while (true) {
+            Image currentFrame = animationTest.animate();
+            System.out.println(currentFrame);
+            loadImages(currentFrame);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public void loadImages() {
-        try {
-            testImage = loadImage("assets/tanks/tank_darkLarge.png");
-            imagesLoaded = true;
-            repaint();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void loadImages(Image frame) {
+        testImage = frame;
+        imagesLoaded = true;
+        repaint();
     }
 
     private Image loadImage(String filename) {
@@ -63,10 +73,7 @@ public class Main extends JFrame {
 
     public void paint(Graphics pen) {
         pen.drawString("Hello World!", 50, 50);
-
-        if(imagesLoaded) {
-            pen.drawImage(testImage, 0, 0, null);
-        }
+        pen.drawImage(testImage, 50, 50, this);
     }
 
 }
