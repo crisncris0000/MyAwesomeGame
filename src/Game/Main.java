@@ -7,9 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main extends JFrame {
-
-    private static final long DEMO_TIME = 8000;
-    private Image testImage;
+    private Image image;
     private boolean imagesLoaded;
     ScreenManager screenManager;
     public static void main(String[] args) {
@@ -46,14 +44,15 @@ public class Main extends JFrame {
         screenManager.setFullScreen(displayMode,this);
 
 
-        AnimationTest animationTest = new AnimationTest("left-walk", 8, 10);
+        AnimationTest animationTest = new AnimationTest(0, 0,"left-walk", 8, 10);
 
         while (true) {
             Image currentFrame = animationTest.animate();
-            System.out.println(currentFrame);
             loadImages(currentFrame);
+
+            repaint();
             try {
-                Thread.sleep(100);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -61,19 +60,16 @@ public class Main extends JFrame {
     }
 
     public void loadImages(Image frame) {
-        testImage = frame;
+        image = frame;
         imagesLoaded = true;
-        repaint();
-    }
-
-    private Image loadImage(String filename) {
-        return new ImageIcon(filename).getImage();
     }
 
 
     public void paint(Graphics pen) {
+        pen.clearRect(0, 0, getWidth(), getHeight());
+
         pen.drawString("Hello World!", 50, 50);
-        pen.drawImage(testImage, 50, 50, this);
+        pen.drawImage(image, 50, 50, null);
     }
 
 }

@@ -1,19 +1,26 @@
 package Enemy;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class AnimationTest {
+public class AnimationTest extends JFrame {
 
     private Image[] frames;
     private int next;
 
     private int currentFrameIndex;
     private int duration;
+    private int x;
+
+    private int y;
 
     private int delay;
 
 
-    public AnimationTest(String name, int size, int duration){
+    public AnimationTest(int x, int y, String name, int size, int duration){
+        this.x = x;
+        this.y = y;
+
         frames = new Image[size];
         this.duration = duration;
 
@@ -40,10 +47,6 @@ public class AnimationTest {
 
         return frames[next];
     }
-
-
-
-
 
 
 }
