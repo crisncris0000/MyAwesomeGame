@@ -1,7 +1,4 @@
 package Collisions;
-
-import org.w3c.dom.css.Rect;
-
 import java.awt.*;
 
 public class RectCollision {
@@ -19,15 +16,7 @@ public class RectCollision {
     }
 
     public boolean isOverlapping(RectCollision r) {
-
-        if(
-                (r.x + r.width <= x + width && r.y + r.height <= y + height)
-
-        ) {
-            return true;
-        }
-
-        return false;
+        return !isLeftOf(r) && !isRightOf(r) && !isAbove(r) && !isBelow(r);
     }
 
     public boolean isLeftOf(RectCollision r) {

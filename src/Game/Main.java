@@ -5,31 +5,25 @@ import ScreenManager.ScreenManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Main extends JFrame {
-    private Image image;
-    private boolean imagesLoaded;
+public class Main extends JFrame implements KeyListener {
+    Image image;
     ScreenManager screenManager;
-    public static void main(String[] args) {
-        DisplayMode displayMode;
 
-        if(args.length == 3) {
-            displayMode = new DisplayMode(
-                    Integer.parseInt(args[0]),
-                    Integer.parseInt(args[1]),
-                    Integer.parseInt(args[2]),
-                    DisplayMode.REFRESH_RATE_UNKNOWN
-            );
-        } else {
-            displayMode =
+    AnimationTest animationTest;
+
+    boolean right = false;
+
+    public static void main(String[] args) {
+        DisplayMode displayMode =
                     new DisplayMode(
                             800,
                             600,
                             16,
                             DisplayMode.REFRESH_RATE_UNKNOWN
                     );
-        }
-
 
         Main main = new Main();
         main.run(displayMode);
@@ -40,19 +34,24 @@ public class Main extends JFrame {
         setForeground(Color.white);
 
         screenManager = new ScreenManager();
+        screenManager.setFullScreen(displayMode, this);
 
-        screenManager.setFullScreen(displayMode,this);
+        animationTest = new AnimationTest(0, 0, "right-walk", 8, 10);
 
-
-        AnimationTest animationTest = new AnimationTest(0, 0,"left-walk", 8, 10);
+        this.addKeyListener(this);
+        requestFocus();
 
         while (true) {
             Image currentFrame = animationTest.animate();
             loadImages(currentFrame);
 
+            if(right) {
+                animationTest.moveBy(+1, 0);
+            }
             repaint();
+
             try {
-                Thread.sleep(10);
+                Thread.sleep(13);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -61,15 +60,33 @@ public class Main extends JFrame {
 
     public void loadImages(Image frame) {
         image = frame;
-        imagesLoaded = true;
     }
 
 
     public void paint(Graphics pen) {
         pen.clearRect(0, 0, getWidth(), getHeight());
-
         pen.drawString("Hello World!", 50, 50);
-        pen.drawImage(image, 50, 50, null);
+        pen.drawImage(image, animationTest.getX(), animationTest.getY(), null);
     }
 
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode();
+        if(code == KeyEvent.VK_RIGHT) {
+            right = true;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            right = false;
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
 }
