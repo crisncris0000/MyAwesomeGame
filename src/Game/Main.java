@@ -1,7 +1,8 @@
 package Game;
 
-import Enemy.AnimationTest;
+import Sprites.Animation;
 import ScreenManager.ScreenManager;
+import Sprites.Enemy;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,12 +10,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Main extends JFrame implements KeyListener {
-    Image image;
-    ScreenManager screenManager;
 
-    AnimationTest animationTest;
+    private ScreenManager screenManager;
+    private Enemy enemy;
 
-    boolean right = false;
+    private boolean leftPressed = false;
+    private boolean rightPressed = false;
+
+
+
+
+
 
     public static void main(String[] args) {
         DisplayMode displayMode =
@@ -33,21 +39,28 @@ public class Main extends JFrame implements KeyListener {
         setBackground(Color.blue);
         setForeground(Color.white);
 
+        enemy = new Enemy(0, 0);
+
         screenManager = new ScreenManager();
         screenManager.setFullScreen(displayMode, this);
-
-        animationTest = new AnimationTest(0, 0, "right-walk", 8, 10);
 
         this.addKeyListener(this);
         requestFocus();
 
         while (true) {
-            Image currentFrame = animationTest.animate();
-            loadImages(currentFrame);
 
-            if(right) {
-                animationTest.moveBy(+1, 0);
+            if(!leftPressed && !rightPressed) {
+                enemy.idle();
             }
+
+            if(leftPressed) {
+                enemy.walkLeft(1);
+            }
+
+            if(rightPressed) {
+                enemy.walkRight(1);
+            }
+
             repaint();
 
             try {
@@ -58,15 +71,11 @@ public class Main extends JFrame implements KeyListener {
         }
     }
 
-    public void loadImages(Image frame) {
-        image = frame;
-    }
-
 
     public void paint(Graphics pen) {
         pen.clearRect(0, 0, getWidth(), getHeight());
         pen.drawString("Hello World!", 50, 50);
-        pen.drawImage(image, animationTest.getX(), animationTest.getY(), null);
+        enemy.paint(pen);
     }
 
 
@@ -74,14 +83,22 @@ public class Main extends JFrame implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
         if(code == KeyEvent.VK_RIGHT) {
-            right = true;
+            rightPressed = true;
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            leftPressed = true;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            right = false;
+            rightPressed = false;
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            leftPressed = false;
         }
     }
 
