@@ -35,6 +35,14 @@ public class RectCollision {
         return y > r.y + height;
     }
 
+    public void walkLeft(int dx) {
+        x -= dx;
+    }
+
+    public void walkRight(int dx) {
+        x += dx;
+    }
+
     public void draw(Graphics pen) {
         pen.drawRect(x, y, width, height);
     }

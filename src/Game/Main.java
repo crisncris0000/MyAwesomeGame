@@ -1,8 +1,6 @@
 package Game;
-
-import Sprites.Animation;
 import ScreenManager.ScreenManager;
-import Sprites.Enemy;
+import Sprites.Sprite;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,14 +10,10 @@ import java.awt.event.KeyListener;
 public class Main extends JFrame implements KeyListener {
 
     private ScreenManager screenManager;
-    private Enemy enemy;
+    private Sprite enemy;
 
     private boolean leftPressed = false;
     private boolean rightPressed = false;
-
-
-
-
 
 
     public static void main(String[] args) {
@@ -35,17 +29,22 @@ public class Main extends JFrame implements KeyListener {
         main.run(displayMode);
     }
 
-    public void run(DisplayMode displayMode) {
-        setBackground(Color.blue);
+    public void gameSetUp() {
+        setBackground(Color.gray);
         setForeground(Color.white);
 
-        enemy = new Enemy(0, 0);
+        enemy = new Sprite(100, 100, 150, 150, "enemy-1");
+
+        this.addKeyListener(this);
+        requestFocus();
+    }
+
+    public void run(DisplayMode displayMode) {
 
         screenManager = new ScreenManager();
         screenManager.setFullScreen(displayMode, this);
 
-        this.addKeyListener(this);
-        requestFocus();
+        gameSetUp();
 
         while (true) {
 
@@ -64,7 +63,7 @@ public class Main extends JFrame implements KeyListener {
             repaint();
 
             try {
-                Thread.sleep(13);
+                Thread.sleep(16);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -74,10 +73,8 @@ public class Main extends JFrame implements KeyListener {
 
     public void paint(Graphics pen) {
         pen.clearRect(0, 0, getWidth(), getHeight());
-        pen.drawString("Hello World!", 50, 50);
         enemy.paint(pen);
     }
-
 
     @Override
     public void keyPressed(KeyEvent e) {
