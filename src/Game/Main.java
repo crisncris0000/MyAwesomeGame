@@ -1,4 +1,5 @@
 package Game;
+import Collisions.RectCollision;
 import ScreenManager.ScreenManager;
 import Sprites.Sprite;
 
@@ -14,6 +15,9 @@ public class Main extends JFrame implements KeyListener {
 
     private boolean leftPressed = false;
     private boolean rightPressed = false;
+    private boolean upPressed = false;
+
+    RectCollision rect = new RectCollision(0, 700, 1800, 50);
 
 
     public static void main(String[] args) {
@@ -33,7 +37,7 @@ public class Main extends JFrame implements KeyListener {
         setBackground(Color.gray);
         setForeground(Color.white);
 
-        enemy = new Sprite(100, 100, 150, 150, "enemy-1");
+        enemy = new Sprite(0, 500, 150, 150, "enemy-1");
 
         this.addKeyListener(this);
         requestFocus();
@@ -45,6 +49,7 @@ public class Main extends JFrame implements KeyListener {
         screenManager.setFullScreen(displayMode, this);
 
         gameSetUp();
+
 
         while (true) {
 
@@ -59,7 +64,18 @@ public class Main extends JFrame implements KeyListener {
             if(rightPressed) {
                 enemy.goRight(1);
             }
+
+            if(upPressed) {
+                enemy.jump();
+            }
+
             enemy.move();
+
+            if(enemy.isOverlapping(rect)) {
+                enemy.pushedOutOf(rect);
+                enemy.vx = 0;
+                enemy.vy = 0;
+            }
 
             repaint();
 
@@ -69,12 +85,6 @@ public class Main extends JFrame implements KeyListener {
                 e.printStackTrace();
             }
         }
-    }
-
-
-    public void paint(Graphics pen) {
-        pen.clearRect(0, 0, getWidth(), getHeight());
-        enemy.paint(pen);
     }
 
     @Override
@@ -87,6 +97,10 @@ public class Main extends JFrame implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
             leftPressed = true;
         }
+
+        if(e.getKeyCode() == KeyEvent.VK_UP) {
+            upPressed = true;
+        }
     }
 
     @Override
@@ -98,10 +112,20 @@ public class Main extends JFrame implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
             leftPressed = false;
         }
+
+        if(e.getKeyCode() == KeyEvent.VK_UP) {
+            upPressed = false;
+        }
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
 
+    }
+
+    public void paint(Graphics pen) {
+        pen.clearRect(0, 0, getWidth(), getHeight());
+        enemy.paint(pen);
+        rect.paint(pen);
     }
 }

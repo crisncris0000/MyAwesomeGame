@@ -9,8 +9,8 @@ public class Sprite extends RectCollision {
     private int x;
     private int y;
 
-    double vx = 0;
-    double vy = 0;
+    public double vx = 0;
+    public double vy = 0;
 
     private int width;
     private int height;
@@ -91,7 +91,6 @@ public class Sprite extends RectCollision {
     }
 
     public void paint(Graphics pen) {
-        super.paint(pen);
         pen.drawImage(currentFrame, getX(), getY(), width, height, null);
     }
 }

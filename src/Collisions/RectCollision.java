@@ -8,6 +8,9 @@ public class RectCollision {
 
     private double vx = 0;
     private double vy = 0;
+
+    private static double g = .5;
+
     private int width;
     private int height;
 
@@ -19,7 +22,11 @@ public class RectCollision {
     }
 
     public boolean isOverlapping(RectCollision r) {
-        return !isLeftOf(r) && !isRightOf(r) && !isAbove(r) && !isBelow(r);
+        return (x + width >= r.x      ) &&
+                (x     <= r.x + r.width) &&
+                (y + height >= r.y      ) &&
+                (y     <= r.y + r.height);
+
     }
 
     public boolean isLeftOf(RectCollision r) {
@@ -51,12 +58,55 @@ public class RectCollision {
         this.vy = vy;
     }
 
+    public void pushedOutOf(RectCollision r)
+    {
+        if(cameFromAbove(r)) 	pushbackUpFrom(r);
+        if(cameFromBelow(r))    pushbackDownFrom(r);
+        if(cameFromLeftOf(r))   pushbackLeftFrom(r);
+        if(cameFromRightOf(r))	pushbackRightFrom(r);
+    }
+
+    public boolean cameFromLeftOf(RectCollision r) {
+        return x - vx + width < r.x;
+    }
+
+    public boolean cameFromRightOf(RectCollision r) {
+        return r.x + r.width < x - vx;
+    }
+
+    public boolean cameFromAbove(RectCollision r) {
+        return y - vy + height < r.y;
+    }
+
+    public boolean cameFromBelow(RectCollision r) {
+        return r.y + r.height < y - vy;
+    }
+
+    public void pushbackLeftFrom(RectCollision r) {
+        x = r.x - width - 1;
+    }
+
+    public void pushbackRightFrom(RectCollision r) {
+        x = r.x + r.width + 1;
+    }
+
+    public void pushbackUpFrom(RectCollision r) {
+        y = r.y - height - 1;
+    }
+
+    public void pushbackDownFrom(RectCollision r) {
+        y = r.y + r.height+ 1;
+    }
+
     public void move() {
         x += vx;
         y += vy;
 
-        vx = 0;
-        vy = 0;
+        vy += g;
+    }
+
+    public void jump() {
+        vy = -10;
     }
 
     public int getX() {

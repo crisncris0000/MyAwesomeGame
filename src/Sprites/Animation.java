@@ -6,7 +6,6 @@ import java.awt.*;
 public class Animation extends JFrame {
 
     private Image[] frames;
-    private Image[] idle;
     private int next;
     private int duration;
     private int delay;
