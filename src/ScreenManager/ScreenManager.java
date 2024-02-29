@@ -3,11 +3,11 @@ package ScreenManager;
 import javax.swing.*;
 import java.awt.*;
 
-public class SimpleScreenManager {
+public class ScreenManager {
 
     private GraphicsDevice device;
 
-    public SimpleScreenManager() {
+    public ScreenManager() {
         GraphicsEnvironment environment =
                 GraphicsEnvironment.getLocalGraphicsEnvironment();
 
@@ -15,18 +15,32 @@ public class SimpleScreenManager {
     }
 
     public void setFullScreen(DisplayMode displayMode, JFrame window) {
-        window.setUndecorated(false);
+        window.setUndecorated(true);
         window.setResizable(false);
 
-        device.setFullScreenWindow(window);
 
         if(displayMode != null && device.isDisplayChangeSupported()) {
             try{
+                device.setFullScreenWindow(window);
                 device.setDisplayMode(displayMode);
             } catch(IllegalArgumentException exception) {
+                restoreScreen();
+                setWindowedScreen(window);
 
+                exception.printStackTrace();
             }
         }
+    }
+
+    public void setWindowedScreen(JFrame window) {
+
+        window.setUndecorated(false);
+        window.setResizable(true);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        window.setSize(screenSize);
+
+        window.setVisible(true);
     }
 
     public Window getFullScreenWindow() {
