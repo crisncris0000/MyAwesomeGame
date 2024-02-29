@@ -63,15 +63,15 @@ public class Sprite extends RectCollision {
     }
 
     @Override
-    public void walkLeft(int vx) {
-        super.walkLeft(vx);
+    public void goLeft(int vx) {
+        super.goLeft(vx);
         wasLeft = true;
         currentFrame = leftWalk.animate();
     }
 
     @Override
-    public void walkRight(int vx) {
-        super.walkRight(vx);
+    public void goRight(int vx) {
+        super.goRight(vx);
         wasLeft = false;
         currentFrame = rightWalk.animate();
     }

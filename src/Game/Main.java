@@ -53,11 +53,11 @@ public class Main extends JFrame implements KeyListener {
             }
 
             if(leftPressed) {
-                enemy.walkLeft(1);
+                enemy.goLeft(1);
             }
 
             if(rightPressed) {
-                enemy.walkRight(1);
+                enemy.goRight(1);
             }
             enemy.move();
 

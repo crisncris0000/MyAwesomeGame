@@ -38,11 +38,11 @@ public class RectCollision {
         return y > r.y + height;
     }
 
-    public void walkLeft(int vx) {
+    public void goLeft(int vx) {
         this.vx = -vx;
     }
 
-    public void walkRight(int vx) {
+    public void goRight(int vx) {
         this.vx = +vx;
     }
 
