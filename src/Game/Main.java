@@ -32,9 +32,6 @@ public class Main extends JFrame {
 
         Main main = new Main();
 
-        ImageIcon icon =
-                new ImageIcon("../../assets/tanks/tank_darkLarge.png");
-
         main.run(displayMode);
     }
 
@@ -59,7 +56,7 @@ public class Main extends JFrame {
 
     public void loadImages() {
         testImage =
-                loadImage("../assets/tanks/tank_darkLarge.png");
+                loadImage("assets/tanks/tank_darkLarge.png"); 
         imagesLoaded = true;
         repaint();
     }
