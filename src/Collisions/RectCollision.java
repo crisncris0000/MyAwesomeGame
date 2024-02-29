@@ -5,6 +5,9 @@ public class RectCollision {
 
     private int x;
     private int y;
+
+    private double vx = 0;
+    private double vy = 0;
     private int width;
     private int height;
 
@@ -35,15 +38,36 @@ public class RectCollision {
         return y > r.y + height;
     }
 
-    public void walkLeft(int dx) {
-        x -= dx;
+    public void walkLeft(int vx) {
+        this.vx = -vx;
     }
 
-    public void walkRight(int dx) {
-        x += dx;
+    public void walkRight(int vx) {
+        this.vx = +vx;
     }
 
-    public void draw(Graphics pen) {
+    public void setVelocity(double vx, double vy) {
+        this.vx = vx;
+        this.vy = vy;
+    }
+
+    public void move() {
+        x += vx;
+        y += vy;
+
+        vx = 0;
+        vy = 0;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void paint(Graphics pen) {
         pen.drawRect(x, y, width, height);
     }
 }

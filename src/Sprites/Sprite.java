@@ -9,6 +9,9 @@ public class Sprite extends RectCollision {
     private int x;
     private int y;
 
+    double vx = 0;
+    double vy = 0;
+
     private int width;
     private int height;
 
@@ -23,7 +26,7 @@ public class Sprite extends RectCollision {
 
     public Sprite(int x, int y, int width, int height, String enemyFolder) {
 
-        super(x, y + 20, width, height);
+        super(x, y, width, height);
 
         this.x = x;
         this.y = y;
@@ -60,17 +63,15 @@ public class Sprite extends RectCollision {
     }
 
     @Override
-    public void walkLeft(int dx) {
-        x -= dx;
-        super.walkLeft(dx);
+    public void walkLeft(int vx) {
+        super.walkLeft(vx);
         wasLeft = true;
         currentFrame = leftWalk.animate();
     }
 
     @Override
-    public void walkRight(int dx) {
-        x += dx;
-        super.walkRight(dx);
+    public void walkRight(int vx) {
+        super.walkRight(vx);
         wasLeft = false;
         currentFrame = rightWalk.animate();
     }
@@ -84,8 +85,13 @@ public class Sprite extends RectCollision {
         }
     }
 
+    public void setVelocity(double vx, double vy) {
+        this.vx = vx;
+        this.vy = vy;
+    }
+
     public void paint(Graphics pen) {
-        super.draw(pen);
-        pen.drawImage(currentFrame, x, y, width, height, null);
+        super.paint(pen);
+        pen.drawImage(currentFrame, getX(), getY(), width, height, null);
     }
 }

@@ -59,6 +59,7 @@ public class Main extends JFrame implements KeyListener {
             if(rightPressed) {
                 enemy.walkRight(1);
             }
+            enemy.move();
 
             repaint();
 
