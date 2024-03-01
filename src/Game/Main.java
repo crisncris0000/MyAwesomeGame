@@ -17,7 +17,7 @@ public class Main extends JFrame implements KeyListener {
     private boolean rightPressed = false;
     private boolean upPressed = false;
 
-    RectCollision rect = new RectCollision(0, 700, 1800, 50);
+    RectCollision rect;
 
 
     public static void main(String[] args) {
@@ -38,6 +38,7 @@ public class Main extends JFrame implements KeyListener {
         setForeground(Color.white);
 
         enemy = new Sprite(0, 500, 150, 150, "enemy-1");
+        rect = new RectCollision(0, 700, 1800, 50);
 
         this.addKeyListener(this);
         requestFocus();
@@ -52,6 +53,8 @@ public class Main extends JFrame implements KeyListener {
 
 
         while (true) {
+
+            repaint();
 
             if(!leftPressed && !rightPressed) {
                 enemy.idle();
@@ -73,14 +76,13 @@ public class Main extends JFrame implements KeyListener {
 
             if(enemy.isOverlapping(rect)) {
                 enemy.pushedOutOf(rect);
-                enemy.vx = 0;
-                enemy.vy = 0;
+                enemy.setVx(0);
+                enemy.setVy(0);
             }
 
-            repaint();
 
             try {
-                Thread.sleep(16);
+                Thread.sleep(15);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -9,7 +9,7 @@ public class RectCollision {
     private double vx = 0;
     private double vy = 0;
 
-    private static double g = .5;
+    private static double g = .3;
 
     private int width;
     private int height;
@@ -102,11 +102,28 @@ public class RectCollision {
         x += vx;
         y += vy;
 
+        vy += g / 2;
         vy += g;
     }
 
     public void jump() {
         vy = -10;
+    }
+
+    public void setVx(double vx) {
+        this.vx = vx;
+    }
+
+    public double getVx() {
+        return vx;
+    }
+
+    public void setVy(double vy) {
+        this.vy = vy;
+    }
+
+    public double getVy() {
+        return vy;
     }
 
     public int getX() {
