@@ -6,12 +6,6 @@ import java.awt.*;
 
 public class Sprite extends RectCollision {
 
-    private int x;
-    private int y;
-
-    public double vx = 0;
-    public double vy = 0;
-
     private int width;
     private int height;
 
@@ -27,9 +21,6 @@ public class Sprite extends RectCollision {
     public Sprite(int x, int y, int width, int height, String enemyFolder) {
 
         super(x, y, width, height);
-
-        this.x = x;
-        this.y = y;
         this.width = width;
         this.height = height;
 
@@ -47,8 +38,6 @@ public class Sprite extends RectCollision {
     public Sprite(int x, int y, int width, int height, String enemyFolder, int idleDuration, int walkDuration) {
         super(x, y, 100, 150);
 
-        this.x = x;
-        this.y = y;
         this.width = width;
         this.height = height;
 
@@ -83,11 +72,6 @@ public class Sprite extends RectCollision {
         } else {
             currentFrame = idleRight.animate();
         }
-    }
-
-    public void setVelocity(double vx, double vy) {
-        this.vx = vx;
-        this.vy = vy;
     }
 
     public void paint(Graphics pen) {

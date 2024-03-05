@@ -9,7 +9,7 @@ public class RectCollision {
     private double vx = 0;
     private double vy = 0;
 
-    private static double g = .5;
+    private static double g = .3;
 
     private int width;
     private int height;
@@ -64,6 +64,7 @@ public class RectCollision {
         if(cameFromBelow(r))    pushbackDownFrom(r);
         if(cameFromLeftOf(r))   pushbackLeftFrom(r);
         if(cameFromRightOf(r))	pushbackRightFrom(r);
+        vx = 0;
     }
 
     public boolean cameFromLeftOf(RectCollision r) {
@@ -91,6 +92,7 @@ public class RectCollision {
     }
 
     public void pushbackUpFrom(RectCollision r) {
+        vy = 0;
         y = r.y - height - 1;
     }
 
@@ -102,6 +104,7 @@ public class RectCollision {
         x += vx;
         y += vy;
 
+        vy += g / 2;
         vy += g;
     }
 
