@@ -64,6 +64,7 @@ public class RectCollision {
         if(cameFromBelow(r))    pushbackDownFrom(r);
         if(cameFromLeftOf(r))   pushbackLeftFrom(r);
         if(cameFromRightOf(r))	pushbackRightFrom(r);
+        vx = 0;
     }
 
     public boolean cameFromLeftOf(RectCollision r) {
@@ -91,6 +92,7 @@ public class RectCollision {
     }
 
     public void pushbackUpFrom(RectCollision r) {
+        vy = 0;
         y = r.y - height - 1;
     }
 
@@ -108,22 +110,6 @@ public class RectCollision {
 
     public void jump() {
         vy = -10;
-    }
-
-    public void setVx(double vx) {
-        this.vx = vx;
-    }
-
-    public double getVx() {
-        return vx;
-    }
-
-    public void setVy(double vy) {
-        this.vy = vy;
-    }
-
-    public double getVy() {
-        return vy;
     }
 
     public int getX() {
