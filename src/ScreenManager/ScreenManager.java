@@ -15,21 +15,20 @@ public class ScreenManager {
     }
 
     public void setFullScreen(DisplayMode displayMode, JFrame window) {
+        System.out.println("Inside display");
         window.setUndecorated(true);
         window.setResizable(false);
 
 
-        if(displayMode != null && device.isDisplayChangeSupported()) {
             try{
                 device.setFullScreenWindow(window);
                 device.setDisplayMode(displayMode);
             } catch(IllegalArgumentException exception) {
                 restoreScreen();
                 setWindowedScreen(window);
-
                 exception.printStackTrace();
             }
-        }
+
     }
 
     public void setWindowedScreen(JFrame window) {

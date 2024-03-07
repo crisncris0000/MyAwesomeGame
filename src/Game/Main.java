@@ -54,8 +54,27 @@ public class Main extends GameBase {
     }
 
     public void paint(Graphics pen) {
-        pen.clearRect(0, 0, getWidth(), getHeight());
-        enemy.paint(pen);
-        floor.paint(pen);
+        // Create off-screen buffer
+        Image offScreenBuffer = createImage(getWidth(), getHeight());
+        if (offScreenBuffer != null) {
+            Graphics offScreenGraphics = offScreenBuffer.getGraphics();
+            if (offScreenGraphics != null) {
+                // Perform drawing operations on the off-screen buffer
+                draw(offScreenGraphics);
+
+                // Draw the off-screen buffer onto the screen
+                pen.drawImage(offScreenBuffer, 0, 0, null);
+                offScreenGraphics.dispose();
+            }
+        }
     }
+
+    private void draw(Graphics g) {
+        g.clearRect(0, 0, getWidth(), getHeight());
+
+        enemy.paint(g);
+        floor.paint(g);
+    }
+
+
 }

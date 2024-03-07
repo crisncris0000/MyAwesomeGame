@@ -16,6 +16,8 @@ public abstract class GameBase extends JFrame implements KeyListener {
     boolean rightPressed = false;
     boolean upPressed = false;
 
+    private Image doubleBuffer;
+
     public void init() {
         setBackground(Color.gray);
         setForeground(Color.white);
@@ -24,19 +26,38 @@ public abstract class GameBase extends JFrame implements KeyListener {
         requestFocus();
     }
 
+    @Override
+    public void update(Graphics g) {
+        Dimension size = getSize();
+
+        if (doubleBuffer == null ||
+                doubleBuffer.getWidth(this) != size.width ||
+                doubleBuffer.getHeight(this) != size.height)
+        {
+            doubleBuffer = createImage(size.width, size.height);
+        }
+
+        if(doubleBuffer != null){
+            Graphics g2 = doubleBuffer.getGraphics();
+            paint(g2);
+            g2.dispose();
+
+            g.drawImage(doubleBuffer, 0, 0, null);
+        } else {
+            paint(g);
+        }
+    }
+
     public void run(DisplayMode displayMode) {
 
         screenManager = new ScreenManager();
         screenManager.setFullScreen(displayMode, this);
 
         init();
-
-
         while (true) {
+            repaint();
 
             inGameLoop();
-
-            repaint();
 
             try {
                 Thread.sleep(15);
