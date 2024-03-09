@@ -1,5 +1,6 @@
 package Game;
 import Collisions.RectCollision;
+import DIsplay.TileMap;
 import Sprites.Sprite;
 
 
@@ -9,6 +10,8 @@ public class Main extends GameBase {
 
     Sprite enemy = new Sprite(0, 500, 150, 150, "enemy-1");
     RectCollision floor = new RectCollision(0, 700, 1800, 50);
+
+    TileMap map = new TileMap();
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -25,7 +28,6 @@ public class Main extends GameBase {
                 );
         super.run(displayMode);
     }
-
 
     @Override
     public void inGameLoop() {
@@ -55,7 +57,9 @@ public class Main extends GameBase {
 
     public void paint(Graphics pen) {
         pen.clearRect(0, 0, getWidth(), getHeight());
-        enemy.paint(pen);
-        floor.paint(pen);
+        enemy.draw(pen);
+        floor.draw(pen);
+
+        map.draw(pen);
     }
 }

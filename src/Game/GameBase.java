@@ -1,7 +1,5 @@
 package Game;
-import Collisions.RectCollision;
-import ScreenManager.ScreenManager;
-import Sprites.Sprite;
+import DIsplay.ScreenManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +15,6 @@ public abstract class GameBase extends JFrame implements KeyListener {
     boolean upPressed = false;
 
     public void init() {
-        setBackground(Color.gray);
         setForeground(Color.white);
 
         this.addKeyListener(this);
@@ -31,12 +28,9 @@ public abstract class GameBase extends JFrame implements KeyListener {
 
         init();
 
-
         while (true) {
-
-            inGameLoop();
-
             repaint();
+            inGameLoop();
 
             try {
                 Thread.sleep(15);

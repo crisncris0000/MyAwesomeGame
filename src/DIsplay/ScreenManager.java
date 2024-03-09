@@ -1,4 +1,4 @@
-package ScreenManager;
+package DIsplay;
 
 import javax.swing.*;
 import java.awt.*;

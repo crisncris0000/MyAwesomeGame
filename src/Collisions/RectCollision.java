@@ -120,7 +120,7 @@ public class RectCollision {
         return y;
     }
 
-    public void paint(Graphics pen) {
+    public void draw(Graphics pen) {
         pen.drawRect(x, y, width, height);
     }
 }
