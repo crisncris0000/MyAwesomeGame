@@ -14,11 +14,21 @@ public class RectCollision {
     private int width;
     private int height;
 
+    private Color color;
+
     public RectCollision(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+    }
+
+    public RectCollision(int x, int y, int width, int height, Color color) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
     }
 
     public boolean isOverlapping(RectCollision r) {
@@ -112,6 +122,10 @@ public class RectCollision {
         vy = -10;
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public int getX() {
         return x;
     }
@@ -120,7 +134,21 @@ public class RectCollision {
         return y;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void resizeRect(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
     public void draw(Graphics pen) {
+        pen.setColor(color);
         pen.drawRect(x, y, width, height);
     }
 }
