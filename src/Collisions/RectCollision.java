@@ -1,4 +1,5 @@
 package Collisions;
+
 import java.awt.*;
 
 public class RectCollision {
@@ -36,7 +37,6 @@ public class RectCollision {
                 (x     <= r.x + r.width) &&
                 (y + height >= r.y      ) &&
                 (y     <= r.y + r.height);
-
     }
 
     public boolean isLeftOf(RectCollision r) {
@@ -142,7 +142,7 @@ public class RectCollision {
         return height;
     }
 
-    public void resizeRect(int width, int height) {
+    public void adjustCollisionSize(int width, int height) {
         this.width = width;
         this.height = height;
     }

@@ -36,7 +36,8 @@ public class Main extends GameBase {
     @Override
     public void inGameLoop() {
 
-        enemy.resizeRect(70, enemy.getHeight());
+        enemy.adjustPosition(30, 0);
+        enemy.adjustCollisionSize(60, 128);
 
         if(upPressed) {
             enemy.jump();

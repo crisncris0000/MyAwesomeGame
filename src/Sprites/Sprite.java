@@ -18,12 +18,14 @@ public class Sprite extends RectCollision {
 
     private boolean wasLeft = false;
 
-    public Sprite(int x, int y, int width, int height, String enemyFolder) {
+    private int x;
+    private int y;
 
+
+    public Sprite(int x, int y, int width, int height, String enemyFolder) {
         super(x, y, width, height);
         this.width = width;
         this.height = height;
-
 
         idleLeft =
                 new Animation(enemyFolder, "idle", "idle-left", 3, 15);
@@ -51,6 +53,11 @@ public class Sprite extends RectCollision {
                 new Animation(enemyFolder, "walk", "right-walk", 7, walkDuration);
     }
 
+    public void adjustPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     @Override
     public void goLeft(int vx) {
         super.goLeft(vx);
@@ -75,7 +82,7 @@ public class Sprite extends RectCollision {
     }
 
     public void draw(Graphics pen) {
-        pen.drawImage(currentFrame, getX(), getY(), width, height, null);
+        pen.drawImage(currentFrame, getX() - x, getY() - y, width, height, null);
         super.draw(pen);
     }
 }
