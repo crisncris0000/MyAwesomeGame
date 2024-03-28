@@ -49,8 +49,9 @@ public class Main extends GameBase {
 
     @Override
     public void inGameLoop() {
-        player.adjustPosition(35, 0);
-        player.adjustCollisionSize(60, 128);
+        player.adjustPosition(35, 20);
+        player.adjustCollisionSize(50, 110);
+        player.setRevealRect(true);
 
         buildMap();
 

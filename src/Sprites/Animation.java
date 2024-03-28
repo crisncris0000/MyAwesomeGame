@@ -27,7 +27,7 @@ public class Animation extends JFrame {
         if(delay == 0) {
             next++;
 
-            if (next == frames.length) next = 1;
+            if (next == frames.length) next = 0;
             delay = duration;
         }
 

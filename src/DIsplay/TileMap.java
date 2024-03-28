@@ -42,20 +42,22 @@ public class TileMap {
         return map;
     }
 
-    public Image loadTile(String filename) {
-        return Toolkit.getDefaultToolkit().getImage("assets/tiles/" + filename);
+    public Image loadImage(String folder,String filename) {
+        return Toolkit.getDefaultToolkit().getImage("assets/" +folder + "/" + filename);
     }
 
     public void draw(Graphics pen) {
+        pen.drawImage(loadImage("background", "background-0.png"),
+                0, 0,1920,1080,  null);
         for(int row = 0; row < map.length; row++) {
             for(int column = 0; column < map[row].length(); column++) {
                 char c = map[row].charAt(column);
                 if(c == 'A') {
-                    pen.drawImage(loadTile("ground-1.png"), scale * column, scale * row,
-                            scale, scale, null);
+                    pen.drawImage(loadImage("tiles","ground-1.png"),
+                            scale * column, scale * row, scale, scale, null);
                 } else if(c == '#') {
-                    pen.drawImage(loadTile("wooden-crate.png"), scale * column, scale * row,
-                            scale + 10, scale + 10, null);
+                    pen.drawImage(loadImage("tiles","wooden-crate.png"),
+                            scale * column, scale * row, scale + 10, scale + 10, null);
                 }
             }
         }
