@@ -16,6 +16,8 @@ public class Sprite extends RectCollision {
 
     private Image currentFrame;
 
+    private boolean revealRect = false;
+
     private boolean wasLeft = false;
 
     private int x;
@@ -81,8 +83,14 @@ public class Sprite extends RectCollision {
         }
     }
 
+    public void setRevealRect(boolean revealRect) {
+        this.revealRect = revealRect;
+    }
+
     public void draw(Graphics pen) {
         pen.drawImage(currentFrame, getX() - x, getY() - y, width, height, null);
-        super.draw(pen);
+        if(revealRect) {
+            super.draw(pen);
+        }
     }
 }

@@ -14,7 +14,7 @@ public class Main extends GameBase {
 
     String[] mapArr = map.getMap();
 
-    Sprite enemy = new Sprite(0, 500, 128, 128, "enemy-1");
+    Sprite player = new Sprite(0, 500, 128, 128, "player");
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -32,42 +32,44 @@ public class Main extends GameBase {
         super.run(displayMode);
     }
 
-
-    @Override
-    public void inGameLoop() {
-
-        enemy.adjustPosition(30, 0);
-        enemy.adjustCollisionSize(60, 128);
-
-        if(upPressed) {
-            enemy.jump();
-        }
-
-        if(!leftPressed && !rightPressed) {
-            enemy.idle();
-        }
-        if(leftPressed) {
-            enemy.goLeft(scale/8);
-        }
-
-        if(rightPressed) {
-            enemy.goRight(scale/8);
-        }
-
-        for (int row = 0; row < mapArr.length; row++) {
-            for (int col = 0; col < mapArr[row].length(); col++) {
+    public void buildMap() {
+        for(int row = 0; row < mapArr.length; row++) {
+            for(int col = 0; col < mapArr[row].length(); col++) {
                 char tile = mapArr[row].charAt(col);
-                if (tile == '#') {
+                if (tile != '.') {
                     RectCollision tileRect = new RectCollision(col * map.getScale(),
                             row * map.getScale(), map.getScale(), map.getScale());
-                    if (enemy.isOverlapping(tileRect)) {
-                        enemy.pushedOutOf(tileRect);
+                    if (player.isOverlapping(tileRect)) {
+                        player.pushedOutOf(tileRect);
                     }
                 }
             }
         }
+    }
 
-        enemy.move();
+    @Override
+    public void inGameLoop() {
+        player.adjustPosition(35, 0);
+        player.adjustCollisionSize(60, 128);
+
+        buildMap();
+
+        if(upPressed) {
+            player.jump();
+        }
+
+        if(!leftPressed && !rightPressed) {
+            player.idle();
+        }
+        if(leftPressed) {
+            player.goLeft(scale/8);
+        }
+
+        if(rightPressed) {
+            player.goRight(scale/8);
+        }
+
+        player.move();
     }
 
     public void paint(Graphics pen) {
@@ -89,6 +91,6 @@ public class Main extends GameBase {
     private void draw(Graphics pen) {
         pen.clearRect(0, 0, getWidth(), getHeight());
         map.draw(pen);
-        enemy.draw(pen);
+        player.draw(pen);
     }
 }
