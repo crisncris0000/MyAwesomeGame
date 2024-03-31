@@ -24,35 +24,35 @@ public class Sprite extends RectCollision {
     private int y;
 
 
-    public Sprite(int x, int y, int width, int height, String enemyFolder) {
+    public Sprite(int x, int y, int width, int height, String spriteFolder) {
         super(x, y, width, height);
         this.width = width;
         this.height = height;
 
         idleLeft =
-                new Animation(enemyFolder, "idle", "idle-left", 3, 15);
+                new Animation(spriteFolder, "idle", "idle-left", 3, 15);
         idleRight =
-                new Animation(enemyFolder, "idle", "idle-right", 3, 15);
+                new Animation(spriteFolder, "idle", "idle-right", 3, 15);
         leftWalk =
-                new Animation(enemyFolder, "walk", "left-walk", 7, 10);
+                new Animation(spriteFolder, "walk", "left-walk", 7, 10);
         rightWalk =
-                new Animation(enemyFolder, "walk", "right-walk", 7, 10);
+                new Animation(spriteFolder, "walk", "right-walk", 7, 10);
     }
 
-    public Sprite(int x, int y, int width, int height, String enemyFolder, int idleDuration, int walkDuration) {
+    public Sprite(int x, int y, int width, int height, String spriteFolder, int idleDuration, int walkDuration) {
         super(x, y, 100, 150);
 
         this.width = width;
         this.height = height;
 
         idleLeft =
-                new Animation(enemyFolder, "idle", "idle-left", 3, idleDuration);
+                new Animation(spriteFolder, "idle", "idle-left", 3, idleDuration);
         idleRight =
-                new Animation(enemyFolder, "idle", "idle-right", 3, idleDuration);
+                new Animation(spriteFolder, "idle", "idle-right", 3, idleDuration);
         leftWalk =
-                new Animation(enemyFolder, "walk", "left-walk", 7, walkDuration);
+                new Animation(spriteFolder, "walk", "left-walk", 7, walkDuration);
         rightWalk =
-                new Animation(enemyFolder, "walk", "right-walk", 7, walkDuration);
+                new Animation(spriteFolder, "walk", "right-walk", 7, walkDuration);
     }
 
     public void adjustPosition(int x, int y) {

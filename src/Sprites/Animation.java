@@ -11,13 +11,13 @@ public class Animation extends JFrame {
     private int delay;
 
 
-    public Animation(String enemyFolder, String subFolder, String name, int size, int duration){
+    public Animation(String spriteFolder, String subFolder, String name, int size, int duration){
         frames = new Image[size];
         this.duration = duration;
 
         for(int i = 0; i < frames.length; i++) {
             frames[i] = Toolkit.getDefaultToolkit()
-                    .getImage("assets/" + enemyFolder + "/" + subFolder + "/" + name + "-" + i + ".png");
+                    .getImage("assets/" + spriteFolder + "/" + subFolder + "/" + name + "-" + i + ".png");
         }
 
         delay = duration;

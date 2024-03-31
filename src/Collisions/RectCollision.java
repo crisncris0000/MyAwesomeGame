@@ -142,6 +142,13 @@ public class RectCollision {
         return height;
     }
 
+    public void chase(RectCollision r, int dx)
+    {
+        if(isLeftOf(r))   goLeft(dx);
+        if(isRightOf(r))  goRight(dx);
+    }
+
+
     public void adjustCollisionSize(int width, int height) {
         this.width = width;
         this.height = height;

@@ -16,6 +16,8 @@ public class Main extends GameBase {
 
     Sprite player = new Sprite(0, 500, 128, 128, "player");
 
+    Sprite enemy = new Sprite(100, 500, 128, 128, "enemy-1");
+
     public static void main(String[] args) {
         Main main = new Main();
         main.displayGame();
@@ -32,28 +34,12 @@ public class Main extends GameBase {
         super.run(displayMode);
     }
 
-    public void buildMap() {
-        for(int row = 0; row < mapArr.length; row++) {
-            for(int col = 0; col < mapArr[row].length(); col++) {
-                char tile = mapArr[row].charAt(col);
-                if (tile != '.') {
-                    RectCollision tileRect = new RectCollision(col * map.getScale(),
-                            row * map.getScale(), map.getScale(), map.getScale());
-                    if (player.isOverlapping(tileRect)) {
-                        player.pushedOutOf(tileRect);
-                    }
-                }
-            }
-        }
-    }
-
     @Override
     public void inGameLoop() {
         player.adjustPosition(35, 20);
         player.adjustCollisionSize(50, 110);
-        player.setRevealRect(true);
 
-        buildMap();
+        map.checkCollision(player);
 
         if(upPressed) {
             player.jump();
@@ -61,7 +47,9 @@ public class Main extends GameBase {
 
         if(!leftPressed && !rightPressed) {
             player.idle();
+            enemy.idle();
         }
+
         if(leftPressed) {
             player.goLeft(scale/8);
         }
@@ -93,5 +81,6 @@ public class Main extends GameBase {
         pen.clearRect(0, 0, getWidth(), getHeight());
         map.draw(pen);
         player.draw(pen);
+        enemy.draw(pen);
     }
 }

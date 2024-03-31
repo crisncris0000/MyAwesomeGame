@@ -1,6 +1,7 @@
 package DIsplay;
 
 import Collisions.RectCollision;
+import Sprites.Sprite;
 
 import java.awt.*;
 
@@ -28,7 +29,7 @@ public class TileMap {
             "......................................#......",
             "......................................#......",
             "......................................#......",
-            "......................................#......",
+            "...............................1......#......",
             "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     };
 
@@ -43,7 +44,22 @@ public class TileMap {
     }
 
     public Image loadImage(String folder,String filename) {
-        return Toolkit.getDefaultToolkit().getImage("assets/" +folder + "/" + filename);
+        return Toolkit.getDefaultToolkit().getImage("assets/" + folder + "/" + filename);
+    }
+
+    public void checkCollision(Sprite player) {
+        for(int row = 0; row < map.length; row++) {
+            for(int col = 0; col < map[row].length(); col++) {
+                char tile = map[row].charAt(col);
+                if (tile != '.') {
+                    RectCollision tileRect = new RectCollision(col * getScale(),
+                            row * getScale(), getScale(), getScale());
+                    if (player.isOverlapping(tileRect)) {
+                        player.pushedOutOf(tileRect);
+                    }
+                }
+            }
+        }
     }
 
     public void draw(Graphics pen) {
@@ -56,8 +72,8 @@ public class TileMap {
                     pen.drawImage(loadImage("tiles","ground-1.png"),
                             scale * column, scale * row, scale, scale, null);
                 } else if(c == '#') {
-                    pen.drawImage(loadImage("tiles","wooden-crate.png"),
-                            scale * column, scale * row, scale + 10, scale + 10, null);
+                    pen.drawImage(loadImage("tiles", "wooden-crate.png"),
+                            scale * column, scale * row, scale, scale, null);
                 }
             }
         }
