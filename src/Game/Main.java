@@ -1,5 +1,4 @@
 package Game;
-import Collisions.RectCollision;
 import DIsplay.TileMap;
 import Sprites.Sprite;
 
@@ -11,8 +10,6 @@ public class Main extends GameBase {
     TileMap map = new TileMap();
 
     int scale = map.getScale();
-
-    String[] mapArr = map.getMap();
 
     Sprite player = new Sprite(0, 500, 128, 128, "player");
 
@@ -40,6 +37,7 @@ public class Main extends GameBase {
         player.adjustCollisionSize(50, 110);
 
         map.checkCollision(player);
+        map.checkCollision(enemy);
 
         if(upPressed) {
             player.jump();
@@ -59,6 +57,7 @@ public class Main extends GameBase {
         }
 
         player.move();
+        enemy.move();
     }
 
     public void paint(Graphics pen) {
