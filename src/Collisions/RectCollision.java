@@ -144,8 +144,8 @@ public class RectCollision {
 
     public void chase(RectCollision r, int dx)
     {
-        if(isLeftOf(r))   goLeft(dx);
-        if(isRightOf(r))  goRight(dx);
+        if(isLeftOf(r))   goRight(dx);
+        if(isRightOf(r))  goLeft(dx);
     }
 
 

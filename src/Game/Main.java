@@ -56,6 +56,8 @@ public class Main extends GameBase {
             player.goRight(scale/8);
         }
 
+        enemy.chase(player, scale/8);
+
         player.move();
         enemy.move();
     }
