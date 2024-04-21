@@ -13,8 +13,6 @@ public class Main extends GameBase {
 
     Sprite player = new Sprite(0, 500, 128, 128, "player");
 
-    Sprite enemy = new Sprite(100, 500, 128, 128, "enemy-1");
-
     public static void main(String[] args) {
         Main main = new Main();
         main.displayGame();
@@ -37,7 +35,6 @@ public class Main extends GameBase {
         player.adjustCollisionSize(50, 110);
 
         map.checkCollision(player);
-        map.checkCollision(enemy);
 
         if(upPressed) {
             player.jump();
@@ -45,7 +42,6 @@ public class Main extends GameBase {
 
         if(!leftPressed && !rightPressed) {
             player.idle();
-            enemy.idle();
         }
 
         if(leftPressed) {
@@ -56,10 +52,7 @@ public class Main extends GameBase {
             player.goRight(scale/8);
         }
 
-        enemy.chase(player, scale/8);
-
         player.move();
-        enemy.move();
     }
 
     public void paint(Graphics pen) {
@@ -82,6 +75,5 @@ public class Main extends GameBase {
         pen.clearRect(0, 0, getWidth(), getHeight());
         map.draw(pen);
         player.draw(pen);
-        enemy.draw(pen);
     }
 }

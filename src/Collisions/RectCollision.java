@@ -148,6 +148,12 @@ public class RectCollision {
         if(isRightOf(r))  goLeft(dx);
     }
 
+    public void bounceLeftAndRight(int position, int leftDistance, int rightDistance, int vx) {
+        if(position - leftDistance < position) {
+            goLeft(vx);
+        }
+    }
+
 
     public void adjustCollisionSize(int width, int height) {
         this.width = width;
