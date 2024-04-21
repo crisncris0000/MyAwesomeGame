@@ -5,5 +5,9 @@ public class EnemySprite extends Sprite{
         super(x, y, width, height, spriteFolder);
     }
 
+    @Override
+    public void goLeft(int dx) {
+        
+    }
 
 }
