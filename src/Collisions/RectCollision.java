@@ -119,7 +119,8 @@ public class RectCollision {
     }
 
     public void jump() {
-        vy = -10;
+        if(vy == 0.0)
+            vy = -10;
     }
 
     public void setColor(Color color) {
@@ -147,13 +148,6 @@ public class RectCollision {
         if(isLeftOf(r))   goRight(dx);
         if(isRightOf(r))  goLeft(dx);
     }
-
-    public void bounceLeftAndRight(int position, int leftDistance, int rightDistance, int vx) {
-        if(position - leftDistance < position) {
-            goLeft(vx);
-        }
-    }
-
 
     public void adjustCollisionSize(int width, int height) {
         this.width = width;

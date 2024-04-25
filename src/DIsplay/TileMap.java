@@ -4,6 +4,7 @@ import Collisions.RectCollision;
 import Sprites.Sprite;
 
 import java.awt.*;
+import java.util.Random;
 
 public class TileMap {
 
@@ -33,6 +34,38 @@ public class TileMap {
             "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     };
 
+    String[] battleMap = {
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            ".............................................",
+            "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    };
+
+
+
+    private final int size = 10000;
+
+    private boolean[] encounter = new boolean[size];
+
     static final int scale = 32;
 
     public int getScale() {
@@ -47,7 +80,15 @@ public class TileMap {
         return Toolkit.getDefaultToolkit().getImage("assets/" + folder + "/" + filename);
     }
 
-    public void checkCollision(Sprite player) {
+    public boolean randomEncounter() {
+        for(int i = 0; i <= 10; i++) {
+            encounter[i] = true;
+        }
+        Random random = new Random();
+        return encounter[random.nextInt(size)];
+    }
+
+    public void checkCollisions(Sprite player) {
         for(int row = 0; row < map.length; row++) {
             for(int col = 0; col < map[row].length(); col++) {
                 char c = map[row].charAt(col);
@@ -62,22 +103,6 @@ public class TileMap {
         }
     }
 
-    public Sprite createSprite(int num, int column, int row) {
-
-        switch (num) {
-            case 1:
-                return new Sprite(column * getScale(), row * getScale(), 128, 128, "enemy-1");
-            case 2:
-                return new Sprite(column * getScale(), row * getScale(), 128, 128, "enemy-2");
-            case 3:
-                return new Sprite(column * getScale(), row * getScale(), 128, 128, "enemy-3");
-            default:
-                System.out.println("No condition set for " + num);
-                break;
-        }
-        return null;
-    }
-
 
     public void draw(Graphics pen) {
         pen.drawImage(loadImage("background", "background-0.png"),
@@ -85,6 +110,7 @@ public class TileMap {
         for(int row = 0; row < map.length; row++) {
             for(int column = 0; column < map[row].length(); column++) {
                 char c = map[row].charAt(column);
+
                 if(c == 'A') {
                     pen.drawImage(loadImage("tiles","ground-1.png"),
                             scale * column, scale * row, scale, scale, null);

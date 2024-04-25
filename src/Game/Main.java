@@ -34,7 +34,7 @@ public class Main extends GameBase {
         player.adjustPosition(35, 20);
         player.adjustCollisionSize(50, 110);
 
-        map.checkCollision(player);
+        map.checkCollisions(player);
 
         if(upPressed) {
             player.jump();
