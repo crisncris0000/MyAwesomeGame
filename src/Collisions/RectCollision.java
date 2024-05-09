@@ -119,7 +119,7 @@ public class RectCollision {
     }
 
     public void jump() {
-        if(vy == 0.0)
+        if(vy >= 0.0 && vy <= 1.5)
             vy = -10;
     }
 

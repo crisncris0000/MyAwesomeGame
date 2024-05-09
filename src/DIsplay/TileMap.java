@@ -88,6 +88,11 @@ public class TileMap {
         return encounter[random.nextInt(size)];
     }
 
+    public void displayBattleMap() {
+        String[] temp = map;
+        map = battleMap;
+    }
+
     public void checkCollisions(Sprite player) {
         for(int row = 0; row < map.length; row++) {
             for(int col = 0; col < map[row].length(); col++) {

@@ -1,6 +1,7 @@
 package Sprites;
 
 import Collisions.RectCollision;
+import DIsplay.MoveSet;
 
 import java.awt.*;
 
@@ -14,6 +15,8 @@ public class Sprite extends RectCollision {
     private Animation leftWalk;
     private Animation rightWalk;
 
+    private MoveSet moveSet;
+
     private Image currentFrame;
 
     private boolean revealRect = false;
@@ -23,11 +26,14 @@ public class Sprite extends RectCollision {
     private int x;
     private int y;
 
+    private boolean canMove = true;
 
-    public Sprite(int x, int y, int width, int height, String spriteFolder) {
+
+    public Sprite(int x, int y, int width, int height, String spriteFolder, MoveSet moveSet) {
         super(x, y, width, height);
         this.width = width;
         this.height = height;
+        this.moveSet = moveSet;
 
         idleLeft =
                 new Animation(spriteFolder, "idle", "idle-left", 3, 15);
