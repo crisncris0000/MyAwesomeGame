@@ -3,6 +3,7 @@ package Sprites;
 import Collisions.RectCollision;
 import DIsplay.MoveSet;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class Sprite extends RectCollision {
@@ -14,6 +15,8 @@ public class Sprite extends RectCollision {
     private Animation idleRight;
     private Animation leftWalk;
     private Animation rightWalk;
+    private Animation attack;
+
 
     private MoveSet moveSet;
 
@@ -43,6 +46,8 @@ public class Sprite extends RectCollision {
                 new Animation(spriteFolder, "walk", "left-walk", 7, 10);
         rightWalk =
                 new Animation(spriteFolder, "walk", "right-walk", 7, 10);
+        attack =
+                new Animation(spriteFolder, "attack", "attack", 5, 10);
     }
 
     public Sprite(int x, int y, int width, int height, String spriteFolder, int idleDuration, int walkDuration) {
@@ -59,6 +64,8 @@ public class Sprite extends RectCollision {
                 new Animation(spriteFolder, "walk", "left-walk", 7, walkDuration);
         rightWalk =
                 new Animation(spriteFolder, "walk", "right-walk", 7, walkDuration);
+        attack =
+                new Animation(spriteFolder, "attack", "attack", 5, 10);
     }
 
     public void adjustPosition(int x, int y) {
@@ -70,22 +77,37 @@ public class Sprite extends RectCollision {
     public void goLeft(int vx) {
         super.goLeft(vx);
         wasLeft = true;
-        currentFrame = leftWalk.animate();
+        currentFrame = leftWalk.animate(true);
     }
 
     @Override
     public void goRight(int vx) {
         super.goRight(vx);
         wasLeft = false;
-        currentFrame = rightWalk.animate();
+        currentFrame = rightWalk.animate(true);
+    }
+
+    int count = 0;
+
+    @Override
+    public void attack() {
+        currentFrame = attack.animateOnce();
+        if(count == 0) {
+            if(attack.isLastFrame()) {
+                count++;
+            }
+        } else {
+            attack.reset();
+            count = 0;
+        }
     }
 
 
     public void idle() {
         if(wasLeft) {
-            currentFrame = idleLeft.animate();
+            currentFrame = idleLeft.animate(true);
         } else {
-            currentFrame = idleRight.animate();
+            currentFrame = idleRight.animate(true);
         }
     }
 

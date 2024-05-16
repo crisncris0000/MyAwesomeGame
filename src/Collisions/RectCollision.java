@@ -63,6 +63,8 @@ public class RectCollision {
         this.vx = +vx;
     }
 
+    public void attack() {}
+
     public void setVelocity(double vx, double vy) {
         this.vx = vx;
         this.vy = vy;

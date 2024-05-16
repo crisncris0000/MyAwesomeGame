@@ -39,14 +39,14 @@ public class Main extends GameBase {
         player.adjustPosition(35, 20);
         player.adjustCollisionSize(50, 110);
 
-        handleMovement();
+        handlePressedKeys();
 
         map.checkCollisions(player);
 
         player.move();
     }
 
-    public void handleMovement() {
+    public void handlePressedKeys() {
         if(upPressed) {
             player.jump();
         }
@@ -66,6 +66,10 @@ public class Main extends GameBase {
 
         if(rightPressed) {
             player.goRight(scale/8);
+        }
+
+        if(numOnePressed) {
+            player.attack();
         }
     }
 
