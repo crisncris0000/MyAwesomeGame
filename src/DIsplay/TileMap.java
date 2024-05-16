@@ -58,7 +58,7 @@ public class TileMap {
                         player.pushedOutOf(tileRect);
                     }
                 }
-            }
+            }2
         }
     }
 

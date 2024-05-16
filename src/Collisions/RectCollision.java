@@ -17,6 +17,8 @@ public class RectCollision {
 
     private Color color;
 
+    private boolean revealRect = false;
+
     public RectCollision(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
@@ -61,6 +63,10 @@ public class RectCollision {
 
     public void goRight(int vx) {
         this.vx = +vx;
+    }
+
+    public void setRevealRect(boolean revealRect) {
+        this.revealRect = revealRect;
     }
 
     public void setVelocity(double vx, double vy) {
@@ -162,6 +168,8 @@ public class RectCollision {
 
     public void draw(Graphics pen) {
         pen.setColor(color);
-        pen.drawRect(x, y, width, height);
+        if(revealRect) {
+            pen.drawRect(x, y, width, height);
+        }
     }
 }
