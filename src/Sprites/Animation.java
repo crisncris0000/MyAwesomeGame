@@ -23,7 +23,7 @@ public class Animation extends JFrame {
         delay = duration;
     }
 
-    public Image animate() {
+    public Image animate(boolean repeat) {
         if(delay == 0) {
             next++;
 
@@ -34,5 +34,26 @@ public class Animation extends JFrame {
         delay--;
 
         return frames[next];
+    }
+
+    public Image animateOnce() {
+        if (delay == 0) {
+            if (next < frames.length - 1) {
+                next++;
+            }
+            delay = duration;
+        }
+
+        delay--;
+        return frames[next];
+    }
+
+    public boolean isLastFrame() {
+        return next == frames.length - 1;
+    }
+
+    public void reset() {
+        next = 0;
+        delay = duration;
     }
 }

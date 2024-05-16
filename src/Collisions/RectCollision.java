@@ -17,8 +17,6 @@ public class RectCollision {
 
     private Color color;
 
-    private boolean revealRect = false;
-
     public RectCollision(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
@@ -65,9 +63,7 @@ public class RectCollision {
         this.vx = +vx;
     }
 
-    public void setRevealRect(boolean revealRect) {
-        this.revealRect = revealRect;
-    }
+    public void attack() {}
 
     public void setVelocity(double vx, double vy) {
         this.vx = vx;
@@ -125,7 +121,8 @@ public class RectCollision {
     }
 
     public void jump() {
-        vy = -10;
+        if(vy >= 0.0 && vy <= 1.5)
+            vy = -10;
     }
 
     public void setColor(Color color) {
@@ -154,13 +151,6 @@ public class RectCollision {
         if(isRightOf(r))  goLeft(dx);
     }
 
-    public void bounceLeftAndRight(int position, int leftDistance, int rightDistance, int vx) {
-        if(position - leftDistance < position) {
-            goLeft(vx);
-        }
-    }
-
-
     public void adjustCollisionSize(int width, int height) {
         this.width = width;
         this.height = height;
@@ -168,8 +158,6 @@ public class RectCollision {
 
     public void draw(Graphics pen) {
         pen.setColor(color);
-        if(revealRect) {
-            pen.drawRect(x, y, width, height);
-        }
+        pen.drawRect(x, y, width, height);
     }
 }

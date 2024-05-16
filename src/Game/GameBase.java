@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public abstract class GameBase extends JFrame implements KeyListener {
 
@@ -13,6 +15,11 @@ public abstract class GameBase extends JFrame implements KeyListener {
     boolean leftPressed = false;
     boolean rightPressed = false;
     boolean upPressed = false;
+
+    boolean numOnePressed = false;
+    boolean numTwoPressed = false;
+    boolean numThreePressed = false;
+    boolean numFourPressed = false;
 
     public void init() {
         setForeground(Color.white);
@@ -49,27 +56,56 @@ public abstract class GameBase extends JFrame implements KeyListener {
             rightPressed = true;
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+        if(code == KeyEvent.VK_LEFT) {
             leftPressed = true;
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_UP) {
+        if(code == KeyEvent.VK_UP) {
             upPressed = true;
+        }
+
+        if(code == KeyEvent.VK_1) {
+            numOnePressed = true;
+        }
+
+        if(code == KeyEvent.VK_2) {
+            numTwoPressed = true;
+        }
+
+        if(code == KeyEvent.VK_3) {
+            numThreePressed = true;
+        }
+
+        if(code == KeyEvent.VK_4) {
+            numFourPressed = true;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        int code = e.getKeyCode();
+        if(code == KeyEvent.VK_RIGHT) {
             rightPressed = false;
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+        if(code == KeyEvent.VK_LEFT) {
             leftPressed = false;
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_UP) {
+        if(code == KeyEvent.VK_UP) {
             upPressed = false;
+        }
+
+        if(code == KeyEvent.VK_2) {
+            numTwoPressed = false;
+        }
+
+        if(code == KeyEvent.VK_3) {
+            numThreePressed = false;
+        }
+
+        if(code == KeyEvent.VK_4) {
+            numFourPressed = false;
         }
     }
 
@@ -77,4 +113,5 @@ public abstract class GameBase extends JFrame implements KeyListener {
     public void keyTyped(KeyEvent e) {
 
     }
+
 }

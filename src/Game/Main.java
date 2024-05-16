@@ -1,4 +1,5 @@
 package Game;
+import DIsplay.MoveSet;
 import DIsplay.TileMap;
 import Sprites.Sprite;
 
@@ -11,7 +12,11 @@ public class Main extends GameBase {
 
     int scale = map.getScale();
 
-    Sprite player = new Sprite(0, 500, 128, 128, "player");
+    MoveSet playerMoveSet = new MoveSet(new String[]{"Move 1", "Move 2", "Move 3", "Move 4"});
+
+    Sprite player = new Sprite(0, 500, 128, 128, "player", playerMoveSet);
+
+
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -34,14 +39,25 @@ public class Main extends GameBase {
         player.adjustPosition(35, 20);
         player.adjustCollisionSize(50, 110);
 
-        map.checkCollision(player);
+        handlePressedKeys();
 
+        map.checkCollisions(player);
+
+        player.move();
+    }
+
+    public void handlePressedKeys() {
         if(upPressed) {
             player.jump();
         }
 
         if(!leftPressed && !rightPressed) {
             player.idle();
+        } else {
+            if(map.randomEncounter()) {
+                map.displayBattleMap();
+                playerMoveSet.setDisplay(true);
+            }
         }
 
         if(leftPressed) {
@@ -52,7 +68,9 @@ public class Main extends GameBase {
             player.goRight(scale/8);
         }
 
-        player.move();
+        if(numOnePressed) {
+            player.attack();
+        }
     }
 
     public void paint(Graphics pen) {
@@ -75,5 +93,8 @@ public class Main extends GameBase {
         pen.clearRect(0, 0, getWidth(), getHeight());
         map.draw(pen);
         player.draw(pen);
+
+        playerMoveSet.draw(pen);
+
     }
 }
