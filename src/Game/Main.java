@@ -12,11 +12,13 @@ public class Main extends GameBase {
 
     int scale = map.getScale();
 
-    MoveSet playerMoveSet = new MoveSet(new String[]{"Move 1", "Move 2", "Move 3", "Move 4"});
+    MoveSet playerMoveSet = new MoveSet(new String[]{"Attack", "Water", "Fire", "Defend"});
 
     Sprite player = new Sprite(0, 500, 128, 128, "player", playerMoveSet);
 
+    Sprite enemy = new Sprite(0, 500, 128, 128, "enemy-1", playerMoveSet);
 
+    boolean isBattling = false;
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -42,35 +44,54 @@ public class Main extends GameBase {
         handlePressedKeys();
 
         map.checkCollisions(player);
+        map.checkCollisions(enemy);
 
         player.move();
+        enemy.move();
+        enemy.setWasLeft(true);
     }
 
+
+
     public void handlePressedKeys() {
-        if(upPressed) {
-            player.jump();
-        }
 
-        if(!leftPressed && !rightPressed) {
-            player.idle();
-        } else {
-            if(map.randomEncounter()) {
-                map.displayBattleMap();
-                playerMoveSet.setDisplay(true);
+        if(!isBattling) {
+            if(upPressed) {
+                player.jump();
             }
-        }
 
-        if(leftPressed) {
-            player.goLeft(scale/8);
-        }
+            if(!leftPressed && !rightPressed) {
+                player.idle();
+            } else {
+                if(map.randomEncounter()) {
+                    map.displayBattleMap();
+                    playerMoveSet.setDisplay(true);
+                    repositionPlayer();
+                }
+            }
 
-        if(rightPressed) {
-            player.goRight(scale/8);
+            if(leftPressed) {
+                player.goLeft(scale/8);
+            }
+
+            if(rightPressed) {
+                player.goRight(scale/8);
+            }
         }
 
         if(numOnePressed) {
             player.attack();
         }
+    }
+
+    public void repositionPlayer() {
+        isBattling = true;
+
+        player.setX(100);
+        player.idle();
+
+        enemy.setX(900);
+        enemy.idle();
     }
 
     public void paint(Graphics pen) {
@@ -93,6 +114,7 @@ public class Main extends GameBase {
         pen.clearRect(0, 0, getWidth(), getHeight());
         map.draw(pen);
         player.draw(pen);
+        enemy.draw(pen);
 
         playerMoveSet.draw(pen);
 

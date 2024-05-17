@@ -102,6 +102,9 @@ public class Sprite extends RectCollision {
         }
     }
 
+    public void setWasLeft(boolean wasLeft) {
+        this.wasLeft = wasLeft;
+    }
 
     public void idle() {
         if(wasLeft) {
@@ -117,7 +120,7 @@ public class Sprite extends RectCollision {
 
     public void draw(Graphics pen) {
         pen.drawImage(currentFrame, getX() - x, getY() - y, width, height, null);
-        if(!revealRect) {
+        if(revealRect) {
             super.draw(pen);
         }
     }
