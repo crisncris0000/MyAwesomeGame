@@ -102,6 +102,9 @@ public class Sprite extends RectCollision {
         }
     }
 
+    public void setWasLeft(boolean wasLeft) {
+        this.wasLeft = wasLeft;
+    }
 
     public void idle() {
         if(wasLeft) {
