@@ -15,7 +15,6 @@ public class ScreenManager {
     }
 
     public void setFullScreen(DisplayMode displayMode, JFrame window) {
-        System.out.println("Inside display");
         window.setUndecorated(true);
         window.setResizable(false);
 

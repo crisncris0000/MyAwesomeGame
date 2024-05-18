@@ -23,7 +23,7 @@ public class Animation extends JFrame {
         delay = duration;
     }
 
-    public Image animate(boolean repeat) {
+    public Image animate() {
         if(delay == 0) {
             next++;
 

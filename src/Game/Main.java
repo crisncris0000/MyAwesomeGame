@@ -12,11 +12,11 @@ public class Main extends GameBase {
 
     int scale = map.getScale();
 
-    MoveSet playerMoveSet = new MoveSet(new String[]{"Attack", "Water", "Fire", "Defend"});
+    MoveSet moveSet = new MoveSet(new String[]{"1. Attack", "2. Water", "3. Fire", "4. Defend"});
 
-    Sprite player = new Sprite(0, 500, 128, 128, "player", playerMoveSet);
+    Sprite player = new Sprite(0, 500, 128, 128, "player", moveSet);
 
-    Sprite enemy = new Sprite(0, 500, 128, 128, "enemy-1", playerMoveSet);
+    Sprite enemy = new Sprite(0, 500, 128, 128, "enemy-1", moveSet);
 
     boolean isBattling = false;
 
@@ -65,8 +65,8 @@ public class Main extends GameBase {
             } else {
                 if(map.randomEncounter()) {
                     map.displayBattleMap();
-                    playerMoveSet.setDisplay(true);
-                    repositionPlayer();
+                    moveSet.setDisplay(true);
+                    beginBattle();
                 }
             }
 
@@ -84,7 +84,7 @@ public class Main extends GameBase {
         }
     }
 
-    public void repositionPlayer() {
+    public void beginBattle() {
         isBattling = true;
 
         player.setX(100);
@@ -116,7 +116,7 @@ public class Main extends GameBase {
         player.draw(pen);
         enemy.draw(pen);
 
-        playerMoveSet.draw(pen);
+        moveSet.draw(pen);
 
     }
 }

@@ -77,14 +77,14 @@ public class Sprite extends RectCollision {
     public void goLeft(int vx) {
         super.goLeft(vx);
         wasLeft = true;
-        currentFrame = leftWalk.animate(true);
+        currentFrame = leftWalk.animate();
     }
 
     @Override
     public void goRight(int vx) {
         super.goRight(vx);
         wasLeft = false;
-        currentFrame = rightWalk.animate(true);
+        currentFrame = rightWalk.animate();
     }
 
     int count = 0;
@@ -108,9 +108,9 @@ public class Sprite extends RectCollision {
 
     public void idle() {
         if(wasLeft) {
-            currentFrame = idleLeft.animate(true);
+            currentFrame = idleLeft.animate();
         } else {
-            currentFrame = idleRight.animate(true);
+            currentFrame = idleRight.animate();
         }
     }
 
