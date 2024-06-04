@@ -100,7 +100,7 @@ public class TileMap {
                 if (c != '.'  && !Character.isDigit(c)) {
                     RectCollision tileRect = new RectCollision(col * getScale(),
                             row * getScale(), getScale(), getScale());
-                    if (player.isOverlapping(tileRect)) {
+                    if(player.isOverlapping(tileRect)) {
                         player.pushedOutOf(tileRect);
                     }
                 }

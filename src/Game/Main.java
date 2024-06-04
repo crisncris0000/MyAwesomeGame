@@ -16,7 +16,7 @@ public class Main extends GameBase {
 
     Sprite player = new Sprite(0, 500, 128, 128, "player", moveSet);
 
-    Sprite enemy = new Sprite(0, 500, 128, 128, "enemy-1", moveSet);
+    Sprite enemy = new Sprite(0, 575, 128, 128, "enemy-1", moveSet);
 
     boolean isBattling = false;
 
@@ -47,8 +47,6 @@ public class Main extends GameBase {
         map.checkCollisions(enemy);
 
         player.move();
-        enemy.move();
-        enemy.setWasLeft(true);
     }
 
 
@@ -60,21 +58,22 @@ public class Main extends GameBase {
                 player.jump();
             }
 
-            if(!leftPressed && !rightPressed) {
+            if((!leftPressed && !rightPressed) || isBattling) {
                 player.idle();
             } else {
                 if(map.randomEncounter()) {
+                    player.idle();
+                    beginBattle();
                     map.displayBattleMap();
                     moveSet.setDisplay(true);
-                    beginBattle();
                 }
             }
 
-            if(leftPressed) {
+            if(leftPressed && !isBattling) {
                 player.goLeft(scale/8);
             }
 
-            if(rightPressed) {
+            if(rightPressed && !isBattling) {
                 player.goRight(scale/8);
             }
         }
@@ -88,7 +87,11 @@ public class Main extends GameBase {
         isBattling = true;
 
         player.setX(100);
-        player.idle();
+        player.setY(550);
+
+
+        enemy.move();
+        enemy.setWasLeft(true);
 
         enemy.setX(900);
         enemy.idle();

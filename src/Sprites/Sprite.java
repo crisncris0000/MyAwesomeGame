@@ -17,7 +17,6 @@ public class Sprite extends RectCollision {
     private Animation rightWalk;
     private Animation attack;
 
-
     private MoveSet moveSet;
 
     private Image currentFrame;
@@ -28,8 +27,6 @@ public class Sprite extends RectCollision {
 
     private int x;
     private int y;
-
-    private boolean canMove = true;
 
 
     public Sprite(int x, int y, int width, int height, String spriteFolder, MoveSet moveSet) {
