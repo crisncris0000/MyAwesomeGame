@@ -36,18 +36,6 @@ public class Animation extends JFrame {
         return frames[next];
     }
 
-    public Image animateOnce() {
-        if (delay == 0) {
-            if (next < frames.length - 1) {
-                next++;
-            }
-            delay = duration;
-        }
-
-        delay--;
-        return frames[next];
-    }
-
     public boolean isLastFrame() {
         return next == frames.length - 1;
     }

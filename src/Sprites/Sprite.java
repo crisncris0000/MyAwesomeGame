@@ -84,19 +84,17 @@ public class Sprite extends RectCollision {
         currentFrame = rightWalk.animate();
     }
 
-    int count = 0;
 
-    @Override
-    public void attack() {
-        currentFrame = attack.animateOnce();
-        if(count == 0) {
-            if(attack.isLastFrame()) {
-                count++;
-            }
-        } else {
+    public boolean attack(boolean attackCompleted) {
+        attackCompleted = false;
+        currentFrame = attack.animate();
+
+        if(attack.isLastFrame()) {
+            attackCompleted = true;
             attack.reset();
-            count = 0;
         }
+
+        return attackCompleted;
     }
 
     public void setWasLeft(boolean wasLeft) {

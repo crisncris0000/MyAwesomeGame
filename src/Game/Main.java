@@ -62,7 +62,9 @@ public class Main extends GameBase {
                 player.idle();
             } else {
                 if(map.randomEncounter()) {
+                    player.setWasLeft(false);
                     player.idle();
+
                     beginBattle();
                     map.displayBattleMap();
                     moveSet.setDisplay(true);
@@ -79,7 +81,12 @@ public class Main extends GameBase {
         }
 
         if(numOnePressed) {
-            player.attack();
+          boolean attackCompleted = player.attack(false);
+
+          if(attackCompleted) {
+              numOnePressed = false;
+              player.idle();
+          }
         }
     }
 
@@ -88,7 +95,6 @@ public class Main extends GameBase {
 
         player.setX(100);
         player.setY(550);
-
 
         enemy.move();
         enemy.setWasLeft(true);
