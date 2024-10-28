@@ -16,6 +16,9 @@ public class Sprite extends RectCollision {
     private Animation leftWalk;
     private Animation rightWalk;
     private Animation attack;
+    private Animation attack2;
+
+    private Animation effect;
 
     private MoveSet moveSet;
 
@@ -39,30 +42,30 @@ public class Sprite extends RectCollision {
                 new Animation(spriteFolder, "idle", "idle-left", 3, 15);
         idleRight =
                 new Animation(spriteFolder, "idle", "idle-right", 3, 15);
+
         leftWalk =
                 new Animation(spriteFolder, "walk", "left-walk", 7, 10);
         rightWalk =
                 new Animation(spriteFolder, "walk", "right-walk", 7, 10);
+
         attack =
                 new Animation(spriteFolder, "attack", "attack", 5, 10);
+
+        attack2 =
+                new Animation(spriteFolder, "attack", "attack2", 3, 10);
     }
 
-    public Sprite(int x, int y, int width, int height, String spriteFolder, int idleDuration, int walkDuration) {
-        super(x, y, 100, 150);
-
+    public Sprite(int x, int y, int width, int height, String spriteFolder) {
+        super(x, y, width, height);
         this.width = width;
         this.height = height;
 
-        idleLeft =
-                new Animation(spriteFolder, "idle", "idle-left", 3, idleDuration);
-        idleRight =
-                new Animation(spriteFolder, "idle", "idle-right", 3, idleDuration);
-        leftWalk =
-                new Animation(spriteFolder, "walk", "left-walk", 7, walkDuration);
-        rightWalk =
-                new Animation(spriteFolder, "walk", "right-walk", 7, walkDuration);
-        attack =
-                new Animation(spriteFolder, "attack", "attack", 5, 10);
+        effect =
+                new Animation(spriteFolder, "water", "water", 22, 10);
+    }
+
+    public void animateEffect() {
+        currentFrame = effect.animate();
     }
 
     public void adjustPosition(int x, int y) {
@@ -92,6 +95,18 @@ public class Sprite extends RectCollision {
         if(attack.isLastFrame()) {
             attackCompleted = true;
             attack.reset();
+        }
+
+        return attackCompleted;
+    }
+
+    public boolean attack2(boolean attackCompleted) {
+        attackCompleted = false;
+        currentFrame = attack2.animate();
+
+        if(attack2.isLastFrame()) {
+            attackCompleted = true;
+            attack2.reset();
         }
 
         return attackCompleted;

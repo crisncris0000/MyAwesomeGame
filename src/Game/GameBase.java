@@ -96,10 +96,6 @@ public abstract class GameBase extends JFrame implements KeyListener {
             upPressed = false;
         }
 
-        if(code == KeyEvent.VK_2) {
-            numTwoPressed = false;
-        }
-
         if(code == KeyEvent.VK_3) {
             numThreePressed = false;
         }

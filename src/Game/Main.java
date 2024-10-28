@@ -18,6 +18,8 @@ public class Main extends GameBase {
 
     Sprite enemy = new Sprite(0, 575, 128, 128, "enemy-1", moveSet);
 
+    Sprite water = new Sprite(0, enemy.getY(), 128, 128, "effects");
+
     boolean isBattling = false;
 
     public static void main(String[] args) {
@@ -47,9 +49,8 @@ public class Main extends GameBase {
         map.checkCollisions(enemy);
 
         player.move();
+        water.animateEffect();
     }
-
-
 
     public void handlePressedKeys() {
 
@@ -80,13 +81,23 @@ public class Main extends GameBase {
             }
         }
 
-        if(numOnePressed) {
-          boolean attackCompleted = player.attack(false);
+        if(isBattling) {
 
-          if(attackCompleted) {
-              numOnePressed = false;
-              player.idle();
-          }
+            if(numOnePressed) {
+                boolean attackCompleted = player.attack(false);
+
+                if(attackCompleted) {
+                    numOnePressed = false;
+                    player.idle();
+                }
+            } else if(numTwoPressed) {
+                boolean attackCompleted = player.attack2(false);
+
+                if(attackCompleted) {
+                    numTwoPressed = false;
+                    player.idle();
+                }
+            }
         }
     }
 
@@ -101,6 +112,7 @@ public class Main extends GameBase {
 
         enemy.setX(900);
         enemy.idle();
+        water.setX(enemy.getX());
     }
 
     public void paint(Graphics pen) {
@@ -124,7 +136,7 @@ public class Main extends GameBase {
         map.draw(pen);
         player.draw(pen);
         enemy.draw(pen);
-
+        water.draw(pen);
         moveSet.draw(pen);
 
     }

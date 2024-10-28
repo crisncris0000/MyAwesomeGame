@@ -19,7 +19,6 @@ public class Animation extends JFrame {
             frames[i] = Toolkit.getDefaultToolkit()
                     .getImage("assets/" + spriteFolder + "/" + subFolder + "/" + name + "-" + i + ".png");
         }
-
         delay = duration;
     }
 
