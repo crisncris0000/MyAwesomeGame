@@ -18,7 +18,9 @@ public class Main extends GameBase {
 
     Sprite enemy = new Sprite(0, 575, 128, 128, "enemy-1", moveSet);
 
-    Sprite water = new Sprite(0, enemy.getY(), 128, 128, "effects");
+    Sprite water = new Sprite(0, enemy.getY(), 128, 128, "effects", "water");
+
+    Sprite fire = new Sprite(0, enemy.getY(), 128, 128, "effects", "fire");
 
     boolean isBattling = false;
 
@@ -49,7 +51,6 @@ public class Main extends GameBase {
         map.checkCollisions(enemy);
 
         player.move();
-        water.animateEffect();
     }
 
     public void handlePressedKeys() {
@@ -83,22 +84,49 @@ public class Main extends GameBase {
 
         if(isBattling) {
 
-            if(numOnePressed) {
-                boolean attackCompleted = player.attack(false);
+            handleBattleKeys();
+        }
+    }
 
-                if(attackCompleted) {
-                    numOnePressed = false;
-                    player.idle();
-                }
-            } else if(numTwoPressed) {
-                boolean attackCompleted = player.attack2(false);
+    boolean showWaterEffect = false;
+    boolean showFireEffect = false;
 
-                if(attackCompleted) {
-                    numTwoPressed = false;
-                    player.idle();
-                }
+    private void handleBattleKeys() {
+
+        if(numOnePressed) {
+            boolean attackCompleted = player.attack(false);
+            showFireEffect = true;
+            if(attackCompleted) {
+                numOnePressed = false;
+                player.idle();
+            }
+        } else if(numTwoPressed) {
+            boolean attackCompleted = player.attack2(false);
+            showWaterEffect = true;
+            if(attackCompleted) {
+                numTwoPressed = false;
+                player.idle();
             }
         }
+
+        if(showWaterEffect) {
+            boolean waterEffectCompleted = water.animateEffect();
+
+            if(waterEffectCompleted) {
+                showWaterEffect = false;
+            }
+        }
+
+        if(showFireEffect) {
+            boolean fireEffectCompleted = fire.animateEffect();
+
+            if(fireEffectCompleted) {
+                showFireEffect = false;
+            }
+        }
+
+
+
     }
 
     public void beginBattle() {
@@ -113,6 +141,7 @@ public class Main extends GameBase {
         enemy.setX(900);
         enemy.idle();
         water.setX(enemy.getX());
+        fire.setX(enemy.getX());
     }
 
     public void paint(Graphics pen) {
@@ -136,8 +165,14 @@ public class Main extends GameBase {
         map.draw(pen);
         player.draw(pen);
         enemy.draw(pen);
-        water.draw(pen);
         moveSet.draw(pen);
 
+        if(showWaterEffect) {
+            water.draw(pen);
+        }
+
+        if(showFireEffect) {
+            fire.draw(pen);
+        }
     }
 }

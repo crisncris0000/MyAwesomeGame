@@ -55,17 +55,24 @@ public class Sprite extends RectCollision {
                 new Animation(spriteFolder, "attack", "attack2", 3, 10);
     }
 
-    public Sprite(int x, int y, int width, int height, String spriteFolder) {
+    public Sprite(int x, int y, int width, int height, String spriteFolder, String spriteEffect) {
         super(x, y, width, height);
         this.width = width;
         this.height = height;
 
         effect =
-                new Animation(spriteFolder, "water", "water", 22, 10);
+                new Animation(spriteFolder, spriteEffect, spriteEffect, 22, 3);
     }
 
-    public void animateEffect() {
+    public boolean animateEffect() {
+        boolean effectCompleted = false;
+
+        if(effect.isLastFrame()) {
+           effectCompleted = true;
+        }
         currentFrame = effect.animate();
+
+        return effectCompleted;
     }
 
     public void adjustPosition(int x, int y) {
