@@ -1,9 +1,8 @@
 package Sprites;
 
 import Collisions.RectCollision;
+import DIsplay.HealthBar;
 import DIsplay.MoveSet;
-
-import javax.swing.*;
 import java.awt.*;
 
 public class Sprite extends RectCollision {
@@ -16,9 +15,9 @@ public class Sprite extends RectCollision {
     private Animation leftWalk;
     private Animation rightWalk;
     private Animation attack;
-    private Animation attack2;
-
     private Animation effect;
+
+    private HealthBar healthBar;
 
     private MoveSet moveSet;
 
@@ -32,27 +31,26 @@ public class Sprite extends RectCollision {
     private int y;
 
 
-    public Sprite(int x, int y, int width, int height, String spriteFolder, MoveSet moveSet) {
+    public Sprite(int x, int y, int width, int height, String spriteFolder, MoveSet moveSet, HealthBar healthBar,
+                  int idleSize, int walkSize, int attackSize) {
         super(x, y, width, height);
         this.width = width;
         this.height = height;
         this.moveSet = moveSet;
+        this.healthBar = healthBar;
 
         idleLeft =
-                new Animation(spriteFolder, "idle", "idle-left", 3, 15);
+                new Animation(spriteFolder, "idle", "idle-left", idleSize, 15);
         idleRight =
-                new Animation(spriteFolder, "idle", "idle-right", 3, 15);
+                new Animation(spriteFolder, "idle", "idle-right", idleSize, 15);
 
         leftWalk =
-                new Animation(spriteFolder, "walk", "left-walk", 7, 10);
+                new Animation(spriteFolder, "walk", "left-walk", walkSize, 10);
         rightWalk =
-                new Animation(spriteFolder, "walk", "right-walk", 7, 10);
+                new Animation(spriteFolder, "walk", "right-walk", walkSize, 10);
 
         attack =
-                new Animation(spriteFolder, "attack", "attack", 5, 10);
-
-        attack2 =
-                new Animation(spriteFolder, "attack", "attack2", 3, 10);
+                new Animation(spriteFolder, "attack", "attack", attackSize, 10);
     }
 
     public Sprite(int x, int y, int width, int height, String spriteFolder, String spriteEffect) {
@@ -80,6 +78,14 @@ public class Sprite extends RectCollision {
         this.y = y;
     }
 
+    public HealthBar getHealthBar() {
+        return healthBar;
+    }
+
+    public MoveSet getMoveSet() {
+        return moveSet;
+    }
+
     @Override
     public void goLeft(int vx) {
         super.goLeft(vx);
@@ -95,25 +101,13 @@ public class Sprite extends RectCollision {
     }
 
 
-    public boolean attack(boolean attackCompleted) {
-        attackCompleted = false;
+    public boolean attack() {
+        boolean attackCompleted = false;
         currentFrame = attack.animate();
 
         if(attack.isLastFrame()) {
             attackCompleted = true;
             attack.reset();
-        }
-
-        return attackCompleted;
-    }
-
-    public boolean attack2(boolean attackCompleted) {
-        attackCompleted = false;
-        currentFrame = attack2.animate();
-
-        if(attack2.isLastFrame()) {
-            attackCompleted = true;
-            attack2.reset();
         }
 
         return attackCompleted;
@@ -137,6 +131,7 @@ public class Sprite extends RectCollision {
 
     public void draw(Graphics pen) {
         pen.drawImage(currentFrame, getX() - x, getY() - y, width, height, null);
+
         if(revealRect) {
             super.draw(pen);
         }

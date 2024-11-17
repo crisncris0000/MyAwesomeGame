@@ -1,4 +1,5 @@
 package Game;
+import DIsplay.HealthBar;
 import DIsplay.MoveSet;
 import DIsplay.TileMap;
 import Sprites.Sprite;
@@ -10,19 +11,25 @@ public class Main extends GameBase {
 
     TileMap map = new TileMap();
 
+    HealthBar healthBar = new HealthBar(100);
+
     int scale = map.getScale();
 
-    MoveSet moveSet = new MoveSet(new String[]{"1. Attack", "2. Water", "3. Fire", "4. Defend"});
+    MoveSet moveSet = new MoveSet(new String[]{"1. Attack", "2. Water", "3. Fire", "4. Heal"});
 
-    Sprite player = new Sprite(0, 500, 128, 128, "player", moveSet);
+    Sprite player = new Sprite(0, 500, 128, 128, "player", moveSet,
+            healthBar, 6, 8, 5);
 
-    Sprite enemy = new Sprite(0, 575, 128, 128, "enemy-1", moveSet);
+    Sprite enemy = new Sprite(0, 575, 128, 128, "enemy-1", moveSet,
+            healthBar, 6, 7, 10);
 
     Sprite water = new Sprite(0, enemy.getY(), 128, 128, "effects", "water");
 
     Sprite fire = new Sprite(0, enemy.getY(), 128, 128, "effects", "fire");
 
     boolean isBattling = false;
+    boolean playerTurn = true;
+    boolean enemyTurn = false;
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -83,31 +90,51 @@ public class Main extends GameBase {
         }
 
         if(isBattling) {
-
-            handleBattleKeys();
+            handleBattleLogic();
         }
     }
 
     boolean showWaterEffect = false;
     boolean showFireEffect = false;
 
-    private void handleBattleKeys() {
+    private void handleBattleLogic() {
 
-        if(numOnePressed) {
-            boolean attackCompleted = player.attack(false);
-            showFireEffect = true;
-            if(attackCompleted) {
-                numOnePressed = false;
-                player.idle();
-            }
-        } else if(numTwoPressed) {
-            boolean attackCompleted = player.attack2(false);
-            showWaterEffect = true;
-            if(attackCompleted) {
-                numTwoPressed = false;
-                player.idle();
+        if(playerTurn) {
+            if (numOnePressed) {
+                boolean attackCompleted = player.attack();
+                if (attackCompleted) {
+                    numOnePressed = false;
+                    player.idle();
+                }
+                playerTurn = false;
+            } else if (numTwoPressed) {
+                boolean attackCompleted = player.attack();
+                showWaterEffect = true;
+                if (attackCompleted) {
+                    numTwoPressed = false;
+                    player.idle();
+                }
+            } else if (numThreePressed) {
+                boolean attackCompleted = player.attack();
+                showFireEffect = true;
+                if (attackCompleted) {
+                    numThreePressed = false;
+                    player.idle();
+                }
+            } else if (numFourPressed) {
+                boolean attackCompleted = player.attack();
+                showFireEffect = true;
+                if (attackCompleted) {
+                    numFourPressed = false;
+                    player.idle();
+                }
             }
         }
+
+
+
+
+        // Show effects
 
         if(showWaterEffect) {
             boolean waterEffectCompleted = water.animateEffect();
@@ -125,8 +152,6 @@ public class Main extends GameBase {
             }
         }
 
-
-
     }
 
     public void beginBattle() {
@@ -140,6 +165,7 @@ public class Main extends GameBase {
 
         enemy.setX(900);
         enemy.idle();
+
         water.setX(enemy.getX());
         fire.setX(enemy.getX());
     }
@@ -165,7 +191,9 @@ public class Main extends GameBase {
         map.draw(pen);
         player.draw(pen);
         enemy.draw(pen);
-        moveSet.draw(pen);
+
+        player.getHealthBar().draw(pen);
+        player.getMoveSet().draw(pen);
 
         if(showWaterEffect) {
             water.draw(pen);
