@@ -105,14 +105,15 @@ public class Main extends GameBase {
                 if (attackCompleted) {
                     numOnePressed = false;
                     player.idle();
+                    playerTurn = false;
                 }
-                playerTurn = false;
             } else if (numTwoPressed) {
                 boolean attackCompleted = player.attack();
                 showWaterEffect = true;
                 if (attackCompleted) {
                     numTwoPressed = false;
                     player.idle();
+                    playerTurn = false;
                 }
             } else if (numThreePressed) {
                 boolean attackCompleted = player.attack();
@@ -120,6 +121,7 @@ public class Main extends GameBase {
                 if (attackCompleted) {
                     numThreePressed = false;
                     player.idle();
+                    playerTurn = false;
                 }
             } else if (numFourPressed) {
                 boolean attackCompleted = player.attack();
@@ -127,14 +129,18 @@ public class Main extends GameBase {
                 if (attackCompleted) {
                     numFourPressed = false;
                     player.idle();
+                    playerTurn = false;
                 }
             }
         }
 
+        if(enemyTurn) {
 
+        }
 
 
         // Show effects
+
 
         if(showWaterEffect) {
             boolean waterEffectCompleted = water.animateEffect();
