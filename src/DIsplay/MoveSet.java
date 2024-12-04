@@ -16,6 +16,10 @@ public class MoveSet {
         this.display = display;
     }
 
+    public String[] getMoves() {
+        return moves;
+    }
+
     public void draw(Graphics pen) {
 
 

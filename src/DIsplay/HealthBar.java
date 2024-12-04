@@ -7,6 +7,9 @@ public class HealthBar {
     private int maxHealth;
     private int currentHealth;
 
+    private int x;
+    private int y;
+
     public HealthBar() {
         maxHealth = 100;
         currentHealth = maxHealth;
@@ -21,10 +24,26 @@ public class HealthBar {
         currentHealth -= amount;
     }
 
+    public void gainHealthBy(int amount) {
+        if(currentHealth + amount > maxHealth) {
+            currentHealth = 100;
+            return;
+        }
+        currentHealth += amount;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
     public void draw(Graphics pen) {
         pen.setColor(Color.black);
         pen.setFont(new Font("Courier New", Font.PLAIN, 17));
-        pen.drawRect(0, 300, 500, 100);
-        pen.drawString("Health: " + currentHealth + "/" + maxHealth, 150, 350);
+        pen.drawRect(x, y, 500, 100);
+        pen.drawString("Health: " + currentHealth + "/" + maxHealth, x + 190, y + 50);
     }
 }

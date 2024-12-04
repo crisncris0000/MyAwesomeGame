@@ -6,6 +6,7 @@ import Sprites.Sprite;
 
 
 import java.awt.*;
+import java.util.Random;
 
 public class Main extends GameBase {
 
@@ -57,11 +58,13 @@ public class Main extends GameBase {
         map.checkCollisions(player);
         map.checkCollisions(enemy);
 
+        player.getHealthBar().setX(player.getX());
+        player.getHealthBar().setY(player.getY() - 200);
+
         player.move();
     }
 
     public void handlePressedKeys() {
-
         if(!isBattling) {
             if(upPressed) {
                 player.jump();
@@ -97,15 +100,29 @@ public class Main extends GameBase {
     boolean showWaterEffect = false;
     boolean showFireEffect = false;
 
+    boolean enemyAttackPlaying = false; // Track if the enemy's attack animation is playing
+
+    boolean moveChosen = false;
+    String chosenMove = "";
+
     private void handleBattleLogic() {
 
-        if(playerTurn) {
+        if(!moveChosen) {
+            // regex for any non-alphabetic characters a-z
+            chosenMove = enemy.randomChosenAttack().replaceAll("[^a-zA-Z]", "");
+            moveChosen = true;
+        }
+
+        if (playerTurn) {
+            water.setX(enemy.getX());
+            fire.setX(enemy.getX());
             if (numOnePressed) {
                 boolean attackCompleted = player.attack();
                 if (attackCompleted) {
                     numOnePressed = false;
                     player.idle();
                     playerTurn = false;
+                    enemyTurn = true;
                 }
             } else if (numTwoPressed) {
                 boolean attackCompleted = player.attack();
@@ -114,6 +131,7 @@ public class Main extends GameBase {
                     numTwoPressed = false;
                     player.idle();
                     playerTurn = false;
+                    enemyTurn = true;
                 }
             } else if (numThreePressed) {
                 boolean attackCompleted = player.attack();
@@ -122,43 +140,60 @@ public class Main extends GameBase {
                     numThreePressed = false;
                     player.idle();
                     playerTurn = false;
+                    enemyTurn = true;
                 }
             } else if (numFourPressed) {
-                boolean attackCompleted = player.attack();
-                showFireEffect = true;
+                player.getHealthBar().gainHealthBy(new Random().nextInt(5, 10));
+                enemyTurn = true;
+                playerTurn = false;
+            }
+        }
+
+        if (enemyTurn) {
+
+            if (!enemyAttackPlaying) {
+                enemyAttackPlaying = true; // Start the enemy's attack animation
+                enemy.attack();
+
+                water.setX(player.getX());
+                fire.setX(player.getX());
+            } else {
+                boolean attackCompleted = enemy.attack(); // Check if animation is done
+
+                if(chosenMove.equals("Water")) {
+                    showWaterEffect = true;
+                } else if(chosenMove.equals("Fire")) {
+                    showFireEffect = true;
+                }
+
                 if (attackCompleted) {
-                    numFourPressed = false;
-                    player.idle();
-                    playerTurn = false;
+                    enemyAttackPlaying = false; // Reset flag
+                    enemyTurn = false; // End enemy turn
+                    playerTurn = true; // Give control back to the player
+                    moveChosen = false;
+                    enemy.idle();
+
+                    player.getHealthBar().lowerHealthBy(new Random().nextInt(1,20));
                 }
             }
         }
 
-        if(enemyTurn) {
-
-        }
-
-
         // Show effects
-
-
-        if(showWaterEffect) {
+        if (showWaterEffect) {
             boolean waterEffectCompleted = water.animateEffect();
-
-            if(waterEffectCompleted) {
+            if (waterEffectCompleted) {
                 showWaterEffect = false;
             }
         }
 
-        if(showFireEffect) {
+        if (showFireEffect) {
             boolean fireEffectCompleted = fire.animateEffect();
-
-            if(fireEffectCompleted) {
+            if (fireEffectCompleted) {
                 showFireEffect = false;
             }
         }
-
     }
+
 
     public void beginBattle() {
         isBattling = true;
@@ -171,9 +206,6 @@ public class Main extends GameBase {
 
         enemy.setX(900);
         enemy.idle();
-
-        water.setX(enemy.getX());
-        fire.setX(enemy.getX());
     }
 
     public void paint(Graphics pen) {
@@ -198,7 +230,10 @@ public class Main extends GameBase {
         player.draw(pen);
         enemy.draw(pen);
 
-        player.getHealthBar().draw(pen);
+        if(isBattling) {
+            player.getHealthBar().draw(pen);
+        }
+
         player.getMoveSet().draw(pen);
 
         if(showWaterEffect) {

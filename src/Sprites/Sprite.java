@@ -4,6 +4,7 @@ import Collisions.RectCollision;
 import DIsplay.HealthBar;
 import DIsplay.MoveSet;
 import java.awt.*;
+import java.util.Random;
 
 public class Sprite extends RectCollision {
 
@@ -111,6 +112,12 @@ public class Sprite extends RectCollision {
         }
 
         return attackCompleted;
+    }
+
+    public String randomChosenAttack() {
+        String[] moves = getMoveSet().getMoves();
+
+        return moves[new Random().nextInt(4)];
     }
 
     public void setWasLeft(boolean wasLeft) {
