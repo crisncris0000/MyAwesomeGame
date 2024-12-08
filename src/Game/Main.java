@@ -116,6 +116,7 @@ public class Main extends GameBase {
         if (playerTurn) {
             water.setX(enemy.getX());
             fire.setX(enemy.getX());
+
             if (numOnePressed) {
                 boolean attackCompleted = player.attack();
                 if (attackCompleted) {
@@ -132,6 +133,22 @@ public class Main extends GameBase {
                     player.idle();
                     playerTurn = false;
                     enemyTurn = true;
+                }
+
+                if (showWaterEffect) {
+                    boolean waterEffectCompleted = water.animateEffect();
+                    if (waterEffectCompleted) {
+                        showWaterEffect = false;
+                        water.setX(enemy.getX());
+                    }
+                }
+
+                if (showFireEffect) {
+                    boolean fireEffectCompleted = fire.animateEffect();
+                    if (fireEffectCompleted) {
+                        showFireEffect = false;
+                        fire.setX(enemy.getX());
+                    }
                 }
             } else if (numThreePressed) {
                 boolean attackCompleted = player.attack();
@@ -150,13 +167,10 @@ public class Main extends GameBase {
         }
 
         if (enemyTurn) {
-
             if (!enemyAttackPlaying) {
                 enemyAttackPlaying = true; // Start the enemy's attack animation
                 enemy.attack();
 
-                water.setX(player.getX());
-                fire.setX(player.getX());
             } else {
                 boolean attackCompleted = enemy.attack(); // Check if animation is done
 
@@ -164,6 +178,22 @@ public class Main extends GameBase {
                     showWaterEffect = true;
                 } else if(chosenMove.equals("Fire")) {
                     showFireEffect = true;
+                }
+
+                if (showWaterEffect) {
+                    boolean waterEffectCompleted = water.animateEffect();
+                    if (waterEffectCompleted) {
+                        water.setX(player.getX());
+                        showWaterEffect = false;
+                    }
+                }
+
+                if (showFireEffect) {
+                    boolean fireEffectCompleted = fire.animateEffect();
+                    if (fireEffectCompleted) {
+                        fire.setX(player.getX());
+                        showFireEffect = false;
+                    }
                 }
 
                 if (attackCompleted) {
@@ -178,19 +208,11 @@ public class Main extends GameBase {
             }
         }
 
-        // Show effects
-        if (showWaterEffect) {
-            boolean waterEffectCompleted = water.animateEffect();
-            if (waterEffectCompleted) {
-                showWaterEffect = false;
-            }
-        }
-
-        if (showFireEffect) {
-            boolean fireEffectCompleted = fire.animateEffect();
-            if (fireEffectCompleted) {
-                showFireEffect = false;
-            }
+        if(player.getHealthBar().getCurrentHealth() <= 0) {
+            isBattling = false;
+            player.getHealthBar().setCurrentHealth(100);
+            showWaterEffect = false;
+            showFireEffect = false;
         }
     }
 
@@ -228,13 +250,12 @@ public class Main extends GameBase {
         pen.clearRect(0, 0, getWidth(), getHeight());
         map.draw(pen);
         player.draw(pen);
-        enemy.draw(pen);
 
         if(isBattling) {
+            enemy.draw(pen);
             player.getHealthBar().draw(pen);
+            player.getMoveSet().draw(pen);
         }
-
-        player.getMoveSet().draw(pen);
 
         if(showWaterEffect) {
             water.draw(pen);

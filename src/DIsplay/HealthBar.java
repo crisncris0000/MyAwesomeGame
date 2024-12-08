@@ -21,6 +21,10 @@ public class HealthBar {
     }
 
     public void lowerHealthBy(int amount) {
+        if(currentHealth - amount <= 0) {
+            currentHealth = 0;
+            return;
+        }
         currentHealth -= amount;
     }
 
@@ -38,6 +42,14 @@ public class HealthBar {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
     public void draw(Graphics pen) {
