@@ -1,8 +1,8 @@
 package Sprites;
 
 import Collisions.RectCollision;
-import DIsplay.HealthBar;
-import DIsplay.MoveSet;
+import Display.HealthBar;
+import Display.MoveSet;
 import java.awt.*;
 import java.util.Random;
 

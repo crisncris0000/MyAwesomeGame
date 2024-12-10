@@ -1,10 +1,9 @@
 package Game;
-import DIsplay.HealthBar;
-import DIsplay.MoveSet;
-import DIsplay.TileMap;
+import Display.HealthBar;
+import Display.MoveSet;
+import Display.TileMap;
 import Sprites.Sprite;
-
-
+import Display.Menu;
 import java.awt.*;
 import java.util.Random;
 
@@ -28,6 +27,8 @@ public class Main extends GameBase {
 
     Sprite fire = new Sprite(0, enemy.getY(), 128, 128, "effects", "fire");
 
+    Menu menu = new Menu();
+
     boolean isBattling = false;
     boolean playerTurn = true;
     boolean enemyTurn = false;
@@ -50,18 +51,23 @@ public class Main extends GameBase {
 
     @Override
     public void inGameLoop() {
-        player.adjustPosition(35, 20);
-        player.adjustCollisionSize(50, 110);
 
-        handlePressedKeys();
+        if(menu.isVisible()) {
+            handleMenuNavigation();
+        } else {
+            player.adjustPosition(35, 20);
+            player.adjustCollisionSize(50, 110);
 
-        map.checkCollisions(player);
-        map.checkCollisions(enemy);
+            handlePressedKeys();
 
-        player.getHealthBar().setX(player.getX());
-        player.getHealthBar().setY(player.getY() - 200);
+            map.checkCollisions(player);
+            map.checkCollisions(enemy);
 
-        player.move();
+            player.getHealthBar().setX(player.getX());
+            player.getHealthBar().setY(player.getY() - 200);
+
+            player.move();
+        }
     }
 
     public void handlePressedKeys() {
@@ -94,6 +100,32 @@ public class Main extends GameBase {
 
         if(isBattling) {
             handleBattleLogic();
+        }
+    }
+
+    private void handleMenuNavigation() {
+        if (upPressed) {
+            menu.navigateUp();
+            upPressed = false;
+        }
+        if (downPressed) {
+            menu.navigateDown();
+            downPressed = false;
+        }
+        if (numOnePressed) {
+            String selectedOption = menu.getSelectedOption();
+            switch (selectedOption) {
+                case "Start Game":
+                    menu.setVisible(false);
+                    break;
+                case "Instructions":
+                    System.out.println("Instructions: Use arrow keys to navigate, press 1-4 to choose actions.");
+                    break;
+                case "Exit":
+                    System.exit(0);
+                    break;
+            }
+            numOnePressed = false;
         }
     }
 
@@ -236,9 +268,11 @@ public class Main extends GameBase {
         if (offScreenBuffer != null) {
             Graphics offScreenGraphics = offScreenBuffer.getGraphics();
             if (offScreenGraphics != null) {
-                // Perform drawing operations on the off-screen buffer
-                draw(offScreenGraphics);
-
+                if (menu.isVisible()) {
+                    menu.draw(offScreenGraphics, getWidth(), getHeight());
+                } else {
+                    draw(offScreenGraphics);
+                }
                 // Draw the off-screen buffer onto the screen
                 pen.drawImage(offScreenBuffer, 0, 0, null);
                 offScreenGraphics.dispose();

@@ -1,12 +1,10 @@
 package Game;
-import DIsplay.ScreenManager;
+import Display.ScreenManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public abstract class GameBase extends JFrame implements KeyListener {
 
@@ -15,6 +13,7 @@ public abstract class GameBase extends JFrame implements KeyListener {
     boolean leftPressed = false;
     boolean rightPressed = false;
     boolean upPressed = false;
+    boolean downPressed = false;
 
     boolean numOnePressed = false;
     boolean numTwoPressed = false;
@@ -64,6 +63,10 @@ public abstract class GameBase extends JFrame implements KeyListener {
             upPressed = true;
         }
 
+        if(code == KeyEvent.VK_DOWN) {
+            downPressed = true;
+        }
+
         if(code == KeyEvent.VK_1) {
             numOnePressed = true;
         }
@@ -94,6 +97,10 @@ public abstract class GameBase extends JFrame implements KeyListener {
 
         if(code == KeyEvent.VK_UP) {
             upPressed = false;
+        }
+
+        if(code == KeyEvent.VK_DOWN) {
+            downPressed = false;
         }
 
         if(code == KeyEvent.VK_4) {

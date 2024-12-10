@@ -1,4 +1,4 @@
-package DIsplay;
+package Display;
 
 import Collisions.RectCollision;
 import Sprites.Sprite;
