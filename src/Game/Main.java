@@ -29,6 +29,8 @@ public class Main extends GameBase {
 
     Menu menu = new Menu();
 
+    Audio menuMusic = new Audio("./assets/audio/twisterion.wav");
+
     boolean isBattling = false;
     boolean playerTurn = true;
     boolean enemyTurn = false;
@@ -36,6 +38,13 @@ public class Main extends GameBase {
     public static void main(String[] args) {
         Main main = new Main();
         main.displayGame();
+    }
+
+    @Override
+    public void init() {
+        super.init();
+
+        menuMusic.playRepeatedly();
     }
 
     public void displayGame(){
@@ -54,10 +63,10 @@ public class Main extends GameBase {
 
         if(menu.isVisible()) {
             handleMenuNavigation();
+
         } else {
             player.adjustPosition(35, 20);
             player.adjustCollisionSize(50, 110);
-
             handlePressedKeys();
 
             map.checkCollisions(player);
@@ -117,6 +126,7 @@ public class Main extends GameBase {
             switch (selectedOption) {
                 case "Start Game":
                     menu.setVisible(false);
+                    menuMusic.stop();
                     break;
                 case "Instructions":
                     System.out.println("Instructions: Use arrow keys to navigate, press 1-4 to choose actions.");

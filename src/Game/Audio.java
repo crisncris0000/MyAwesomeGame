@@ -7,9 +7,8 @@ public class Audio {
 
     private AudioFormat audioFormat;
     private byte[] samples;
-
     private boolean stopRequested = false;
-
+    private Thread audioThread;
 
     public Audio(String filename) {
         try {
@@ -17,17 +16,10 @@ public class Audio {
                     .getAudioInputStream(new File(filename));
 
             audioFormat = stream.getFormat();
-
             samples = getSamples(stream);
-        } catch(UnsupportedAudioFileException ex) {
-            ex.printStackTrace();
-        } catch(IOException ex) {
+        } catch (UnsupportedAudioFileException | IOException ex) {
             ex.printStackTrace();
         }
-    }
-
-    public byte[] getSamples() {
-        return samples;
     }
 
     private byte[] getSamples(AudioInputStream audioInputStream) {
@@ -38,83 +30,70 @@ public class Audio {
 
         try {
             inputStream.readFully(samples);
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
 
         return samples;
     }
 
-    public void play(InputStream source) {
-        int bufferSize = audioFormat.getFrameSize() *
-                Math.round(audioFormat.getSampleRate() / 10);
+    public void playRepeatedly() {
+        stop(); // Ensure any previous thread is stopped
 
-        byte[] buffer = new byte[bufferSize];
+        audioThread = new Thread(() -> {
+            stopRequested = false; // Reset the stop flag
+            int bufferSize = audioFormat.getFrameSize() *
+                    Math.round(audioFormat.getSampleRate() / 10);
 
-        SourceDataLine line;
+            byte[] buffer = new byte[bufferSize];
 
-        try {
-            DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
-            line = (SourceDataLine) AudioSystem.getLine(info);
-        } catch (LineUnavailableException ex) {
-            ex.printStackTrace();
-            return;
-        }
+            SourceDataLine line;
 
-        line.start();
-
-        try {
-            int numBytesRead = 0;
-            while(numBytesRead != -1) {
-                numBytesRead = source.read(buffer, 0, buffer.length);
-
-                if(numBytesRead != -1) {
-                    line.write(buffer, 0, numBytesRead);
-                }
+            try {
+                DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
+                line = (SourceDataLine) AudioSystem.getLine(info);
+                line.open(audioFormat);
+                line.start();
+            } catch (LineUnavailableException ex) {
+                ex.printStackTrace();
+                return;
             }
-        } catch(IOException ex) {
-            ex.printStackTrace();
-        }
 
-        line.drain();
-        line.close();
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(samples);
+
+            while (!stopRequested) {
+                int numBytesRead = 0;
+                while (numBytesRead != -1 && !stopRequested) {
+                    try {
+                        numBytesRead = inputStream.read(buffer, 0, buffer.length);
+
+                        if (numBytesRead != -1) {
+                            line.write(buffer, 0, numBytesRead);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        break;
+                    }
+                }
+                inputStream.reset(); // Reset the stream for looping
+            }
+
+            line.drain();
+            line.close();
+        });
+
+        audioThread.start();
     }
 
-
-    public void playRepeatedly() {
-        stopRequested = false; // Reset the stop flag
-        int bufferSize = audioFormat.getFrameSize() *
-                Math.round(audioFormat.getSampleRate() / 10);
-
-        byte[] buffer = new byte[bufferSize];
-
-        SourceDataLine line;
-
-        try {
-            DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
-            line = (SourceDataLine) AudioSystem.getLine(info);
-            line.open(audioFormat);
-            line.start();
-        } catch (LineUnavailableException ex) {
-            ex.printStackTrace();
-            return;
-        }
-
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(samples);
-
-        while (!stopRequested) {
-            int numBytesRead = 0;
-            while (numBytesRead != -1 && !stopRequested) {
-                numBytesRead = inputStream.read(buffer, 0, buffer.length);
-
-                if (numBytesRead != -1) {
-                    line.write(buffer, 0, numBytesRead);
-                }
+    public void stop() {
+        if (audioThread != null && audioThread.isAlive()) {
+            stopRequested = true;
+            try {
+                audioThread.join(); // Wait for the thread to stop
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
             }
-            inputStream.reset(); // Reset the stream for looping
+            audioThread = null;
         }
-
-        line.drain();
-        line.close();
     }
 }
