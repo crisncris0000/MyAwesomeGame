@@ -10,6 +10,9 @@ public class Audio {
     private boolean stopRequested = false;
     private Thread audioThread;
 
+
+    // takes file name as input , loads the audio file and extracts audio format, finally reads the audio data
+    // into the byte array
     public Audio(String filename) {
         try {
             AudioInputStream stream = AudioSystem
@@ -21,6 +24,7 @@ public class Audio {
             ex.printStackTrace();
         }
     }
+
 
     private byte[] getSamples(AudioInputStream audioInputStream) {
         int length = (int) audioInputStream.getFrameLength() * audioFormat.getFrameSize();

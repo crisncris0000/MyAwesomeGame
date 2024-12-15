@@ -14,7 +14,6 @@ public class Main extends GameBase {
     HealthBar healthBar = new HealthBar(100);
 
     int scale = map.getScale();
-
     MoveSet moveSet = new MoveSet(new String[]{"1. Attack", "2. Water", "3. Fire", "4. Heal"});
 
     Sprite player = new Sprite(0, 500, 128, 128, "player", moveSet,
@@ -250,7 +249,7 @@ public class Main extends GameBase {
             }
         }
 
-        if(player.getHealthBar().getCurrentHealth() <= 0) {
+        if(player.getHealthBar().getCurrentHealth() <= 0 || enemy.getHealthBar().getCurrentHealth() <= 0) {
             isBattling = false;
             player.getHealthBar().setCurrentHealth(100);
             showWaterEffect = false;
